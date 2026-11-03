@@ -414,7 +414,7 @@ const AR={
 "In progress":"جاري التنفيذ","Closed":"مغلق","Unpaid":"غير مدفوعة","Paid":"مدفوعة","Today":"اليوم","Yesterday":"أمس","{n} days ago":"منذ {n} يوم",
 "Security":"الأمن","Cleanliness":"النظافة","Landscaping":"الزراعة والحدائق","Noise":"الإزعاج","Parking":"المواقف والجراجات","Facilities":"المرافق","Other":"أخرى",
 "Hello, I'm {n} from {c} · Unit {u}.":"السلام عليكم، أنا {n} من {c} · وحدة {u}.","Contact management on WhatsApp":"تواصل مع الإدارة على واتساب",
-"Choose your language":"اختر اللغة","Family members":"أفراد الأسرة","Add family member":"إضافة فرد من الأسرة","Your family members":"أفراد أسرتك","No family members added yet.":"لم تُضِف أي فرد من الأسرة بعد.","Gmail":"بريد Gmail",
+"Choose your language":"اختر اللغة","Change chalet or relation":"تغيير الشاليه أو الصفة","Family members":"أفراد الأسرة","Add family member":"إضافة فرد من الأسرة","Your family members":"أفراد أسرتك","No family members added yet.":"لم تُضِف أي فرد من الأسرة بعد.","Gmail":"بريد Gmail",
 "Add your family members by their Gmail. They sign in to ASU HUB with that Gmail and upload only their national ID.":"أضف أفراد أسرتك ببريد Gmail الخاص بكل منهم، ثم يسجّل كلٌّ منهم الدخول إلى ASU HUB بهذا البريد ويرفع بطاقته الشخصية فقط.",
 "Waiting for them to sign in":"بانتظار تسجيل دخوله","Waiting for approval":"بانتظار موافقة الإدارة","Enter your family member's Gmail, not yours.":"أدخل بريد فرد الأسرة، لا بريدك أنت.","This Gmail is already added.":"هذا البريد مُضاف بالفعل.",
 "Family member added. Ask them to sign in to ASU HUB with this Gmail.":"تمت إضافة فرد الأسرة. اطلب منه تسجيل الدخول إلى ASU HUB بهذا البريد.","You were added as a family member":"تمت إضافتك فردًا من الأسرة",
@@ -638,7 +638,7 @@ V.community=()=>{const redo=route.redo&&D.units.find(x=>x.id===route.redo);const
  <div class="body">
   ${adding?"":'<div class="steps"><i class="on"></i><i class="on"></i><i></i></div>'}
   <div class="hero" style="margin:0 0 18px">${hubMark("sm")}<div style="min-width:0"><b style="font-size:17px">${esc(c.name)}</b><div class="sub">${t("North Coast · km 72, Alexandria–Matrouh road")}</div></div></div>
-  ${redo?`<div class="banner" style="margin:0 0 14px">${I("alert")}<span>${t("Your request was not approved. Choose your chalet again and upload the required documents.")}</span></div>`:""}
+  ${redo&&redo.status==="rejected"?`<div class="banner" style="margin:0 0 14px">${I("alert")}<span>${t("Your request was not approved. Choose your chalet again and upload the required documents.")}</span></div>`:""}
   ${!redo&&D.invites?.length?D.invites.map(i=>`<div class="post" style="margin-bottom:14px"><b style="display:block;font-size:16px;margin-bottom:4px">${t("You were added as a family member")}</b><p class="sub" style="margin:0 0 12px">${t("{o} added you to chalet {u}. You only need to upload your national ID.",{o:esc(i.owner_name||""),u:"<b>"+esc(i.unit_no)+"</b>"})}</p><button class="btn" data-a="acceptInvite" data-v="${i.id}">${I("users")}${t("Join as family member")}</button></div>`).join("")+`<div class="sec"><h2>${t("Or register a chalet yourself")}</h2></div>`:""}
   <p class="lead">${t("Choose your chalet from the village list.")}</p>
   <div class="field"><label for="f-vu">${t("Chalet number")}</label><div class="sel"><select id="f-vu" required dir="ltr"><option value="" ${redo?"":"selected"}>${t("Choose your chalet")}</option>${Object.entries(groups).map(([g,list])=>`<optgroup label="${esc(g)}">${list.map(v=>`<option value="${v.id}" ${redo&&redo.village_unit_id===v.id?"selected":""}>${esc(v.code)}</option>`).join("")}</optgroup>`).join("")}</select>${I("down")}</div></div>
@@ -701,7 +701,7 @@ V.gate=()=>{const c=D.communities.find(x=>D.units.some(u=>u.community_id===x.id)
   <div style="display:flex;justify-content:center;margin:4px 0 14px">${hubMark()}</div>
   <p class="lead" style="margin-bottom:16px">${t("The app unlocks after the management approves your chalet.")}</p>
   ${D.units.some(u=>u.status==="rejected")?`<div class="banner" style="margin:0 0 14px">${I("alert")}<span>${t("Your request was not approved. Choose your chalet again and upload the required documents.")}</span></div>`:""}
-  ${D.units.map(u=>{const need=true;const n=docCount(u),m=docNeed(u);return `<div class="row" style="flex-wrap:wrap">${I(u.status==="rejected"?"alert":"clip")}<div class="t"><b>${esc(unitLabel(u))}</b><span>${u.status==="rejected"?t("Not approved")+" · "+t("Choose your chalet again and upload the required documents."):(need&&n<m?t("{n} of {m} uploaded",{n,m})+" · "+t("Upload the remaining documents first."):need?t("All documents uploaded. The management is reviewing them."):t("Under review"))}</span></div>${pill(u.status)}${need?`<div class="sel-row" style="width:100%">${u.status==="rejected"?`<button class="btn small" data-a="redoUnit" data-v="${u.id}">${I("building")}${t("Register again")}</button>`:`<button class="btn small ${n<m?"":"ghost"}" data-a="goDocs" data-v="${u.id}">${I("clip")}${t("Upload documents")}</button>`}</div>`:""}</div>`}).join("")}
+  ${D.units.map(u=>{const need=true;const n=docCount(u),m=docNeed(u);return `<div class="row" style="flex-wrap:wrap">${I(u.status==="rejected"?"alert":"clip")}<div class="t"><b>${esc(unitLabel(u))}</b><span>${u.status==="rejected"?t("Not approved")+" · "+t("Choose your chalet again and upload the required documents."):(need&&n<m?t("{n} of {m} uploaded",{n,m})+" · "+t("Upload the remaining documents first."):need?t("All documents uploaded. The management is reviewing them."):t("Under review"))}</span></div>${pill(u.status)}${need?`<div class="sel-row" style="width:100%">${u.status==="rejected"?`<button class="btn small" data-a="redoUnit" data-v="${u.id}">${I("building")}${t("Register again")}</button>`:`<button class="btn small ${n<m?"":"ghost"}" data-a="goDocs" data-v="${u.id}">${I("clip")}${t("Upload documents")}</button><button class="btn small ghost" data-a="redoUnit" data-v="${u.id}">${I("settings")}${t("Change chalet or relation")}</button>`}</div>`:""}</div>`}).join("")}
   <button class="btn" data-a="checkStatus" style="margin:8px 0 16px">${t("Check status")}</button>
   ${c?.whatsapp?waCard(c):""}
   <div style="display:flex;justify-content:center;margin-top:18px">${langSwitch()}</div>
@@ -974,6 +974,7 @@ const A={
    
    const patch={full_name:name,phone,lang:LANG};if(D.profile.role==="resident"){patch.relation=tmp.rel||D.profile.relation||"Owner";}
    D.profile=await q(sb.from("profiles").update(patch).eq("id",D.profile.id).select().single());
+   if(patch.relation){try{await sb.rpc("set_pending_relation",{p_relation:patch.relation});await load()}catch(e){}}
    if(route.editing){back();toast(t("Profile saved"))}else{tmp={};boot()}}),
  saveUnit:el=>busy(el,async()=>{const cid=D.communities[0]?.id,vid=val("f-vu"),u=(D.vunits.find(v=>v.id===vid)||{}).code;
    if(!cid)return err(t("The village is being set up. Please try again later."));if(!u)return err(t("Choose your chalet"));
