@@ -582,7 +582,7 @@ async function boot(){
 async function refresh(){try{await load();render()}catch(e){toast(e.message)}}
 
 /* ---------- shell ---------- */
-const topbar=(title,o={})=>`<header class="top">${o.noBack?"<span></span>":`<button class="iconbtn" data-a="back" aria-label="Back">${I("left","flip")}</button>`}<h1>${title}</h1>${o.right||"<span></span>"}</header>`;
+const topbar=(title,o={})=>`<header class="top">${o.noBack?"<span></span>":`<button class="iconbtn" data-a="${o.backTo?"backTo":"back"}" data-v="${o.backTo||""}" aria-label="Back">${I("left","flip")}</button>`}<h1>${title}</h1>${o.right||"<span></span>"}</header>`;
 function tabs(on){const tb=[["home","Home","home"],["services","Services","grid"],["discover","Discover","compass"]];if(isMgr())tb.push(["manager","Manager","settings"]);
   return `<nav class="tabs">${tb.map(([k,l,ic])=>`<button class="tab ${on===k?"on":""}" data-a="tab" data-v="${k}">${I(ic)}<span>${t(l)}</span></button>`).join("")}</nav>`}
 const PILL={Open:"p-open",pending:"p-open","In progress":"p-prog",approved:"p-ok",Active:"p-ok",Paid:"p-ok",rejected:"p-bad",Unpaid:"p-bad"};
@@ -634,7 +634,7 @@ V.community=()=>{const redo=route.redo&&D.units.find(x=>x.id===route.redo);const
  const mine=new Set(D.units.filter(u=>!redo||u.id!==redo.id).map(u=>u.village_unit_id));if(redo&&tmp.rel===undefined)tmp.rel=relOf(redo);const groups={};
  D.vunits.filter(v=>!mine.has(v.id)).forEach(v=>{const g=v.code.replace(/\d+$/,"");(groups[g]=groups[g]||[]).push(v)});
  return `
- ${topbar(adding?t("Add another chalet"):t("Register your chalet"),{noBack:!adding})}
+ ${topbar(adding?t("Add another chalet"):t("Register your chalet"),adding?{}:{backTo:redo?"gate":"profile"})}
  <div class="body">
   ${adding?"":'<div class="steps"><i class="on"></i><i class="on"></i><i></i></div>'}
   <div class="hero" style="margin:0 0 18px">${hubMark("sm")}<div style="min-width:0"><b style="font-size:17px">${esc(c.name)}</b><div class="sub">${t("North Coast · km 72, Alexandria–Matrouh road")}</div></div></div>
@@ -648,7 +648,7 @@ V.community=()=>{const redo=route.redo&&D.units.find(x=>x.id===route.redo);const
  <div class="foot"><button class="btn" data-a="${redo?"redoSave":"saveUnit"}">${t("Next")}</button></div>`};
 
 V.docs=()=>{const u=D.units.find(x=>x.id===route.unit)||unit();if(!u)return V.home();const have=Object.fromEntries(docsOf(u).map(d=>[d.kind,d]));const n=docCount(u);
- return `${topbar(t("Upload documents"),{noBack:!!route.first})}
+ return `${topbar(t("Upload documents"),route.first?{backTo:"gate"}:{})}
  <div class="body">
   ${route.first?'<div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i></div>':""}
   <div class="unitchip"><span class="unitline">${I("home")}${esc(unitLabel(u))} · ${t("{n} of {m} uploaded",{n,m:docNeed(u)})}</span></div>
@@ -944,7 +944,7 @@ function qr(el,text){if(!el)return;el.innerHTML="";try{new QRCode(el,{text,width
 const OPEN_ROUTES=["welcome","loading","error","profile","community","docs","submitted","gate","profileView"];
 const locked=()=>D.profile&&D.profile.role==="resident"&&!D.units.some(u=>u.status==="approved");
 function render(){const rj=D.units.length&&D.units.every(u=>u.status==="rejected")?D.units[0]:null;
- if(locked()&&(!OPEN_ROUTES.includes(route.name)||(rj&&route.name==="gate"))){stack=[];route=rj?{name:"community",redo:rj.id}:{name:D.units.length?"gate":"community"}}
+ if(locked()&&!OPEN_ROUTES.includes(route.name)){stack=[];route=rj?{name:"community",redo:rj.id}:{name:D.units.length?"gate":"community"}}
  if(isSec()&&!["scan","profileView","profile","welcome","loading","error"].includes(route.name)){stack=[];route={name:"scan"}}
  if(route.name!=="scan"&&camStream)stopCam(true);
  $("#screen").innerHTML=(V[route.name]||V.home)();
@@ -986,6 +986,7 @@ const A={
    if(u.status==="rejected"){const {error}=await sb.rpc("resubmit_unit",{p_unit:u.id});if(error)throw error;await refresh();home();return toast(t("Request resubmitted. The management will review it."))}
    if(route.first)go("submitted",{},false);else back();toast(t("Documents uploaded. The management will review them."))}),
  goDocs(el){go("docs",{unit:el.dataset.v})},
+ backTo(el){tmp={};stack=[];route={name:el.dataset.v};render()},
  acceptInvite:el=>busy(el,async()=>{const {data,error}=await sb.rpc("accept_family_invite",{p_invite:el.dataset.v});if(error)throw error;lsSet("asu-active",data);tmp={};await load();stack=[];route={name:"docs",unit:data,first:true};render()}),
  addFamily:el=>busy(el,async()=>{const uid=document.getElementById("fm-u")?val("fm-u"):el.dataset.v;const name=val("fm-n"),em=val("fm-e").toLowerCase();
    if(!name)return err(t("Enter your full name."));if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em))return err(t("Enter a valid Gmail address"));
