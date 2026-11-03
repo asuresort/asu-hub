@@ -406,7 +406,7 @@ const AR={
 "In progress":"جاري التنفيذ","Closed":"مغلق","Unpaid":"غير مدفوعة","Paid":"مدفوعة","Today":"اليوم","Yesterday":"أمس","{n} days ago":"منذ {n} يوم",
 "Security":"الأمن","Cleanliness":"النظافة","Landscaping":"الزراعة والحدائق","Noise":"الإزعاج","Parking":"الجراجات والركن","Facilities":"المرافق","Other":"أخرى",
 "Hello, I'm {n} from {c} · Unit {u}.":"السلام عليكم، أنا {n} من {c} · وحدة {u}.","Contact management on WhatsApp":"تواصل مع الإدارة على واتساب",
-"Choose your language":"اختار اللغة","National ID number (14 digits)":"الرقم القومي (١٤ رقم)","Enter your 14-digit national ID number.":"اكتب الرقم القومي كامل (١٤ رقم).","This national ID number is not valid.":"الرقم القومي ده مش صحيح.","National ID":"الرقم القومي","Waiting for approval":"في انتظار الموافقة","Under review":"قيد المراجعة","Not approved":"لم تتم الموافقة",
+"Choose your language":"اختار اللغة","Document":"المستند","Open PDF":"فتح ملف PDF","Open in full screen":"فتح بحجم كامل","National ID number (14 digits)":"الرقم القومي (١٤ رقم)","Enter your 14-digit national ID number.":"اكتب الرقم القومي كامل (١٤ رقم).","This national ID number is not valid.":"الرقم القومي ده مش صحيح.","National ID":"الرقم القومي","Waiting for approval":"في انتظار الموافقة","Under review":"قيد المراجعة","Not approved":"لم تتم الموافقة",
 "The app unlocks after the management approves your chalet.":"التطبيق هيتفتح بعد ما الإدارة توافق على الشاليه.","Upload the remaining documents first.":"ارفع باقي المستندات الأول.",
 "All documents uploaded. The management is reviewing them.":"كل المستندات اتّرفعت. الإدارة بتراجعها دلوقتي.","Check status":"تحديث الحالة","Still waiting for approval":"لسه في انتظار الموافقة",
 "Contact the management if you think this is a mistake.":"تواصل مع الإدارة لو شايف إن في خطأ.","Register another chalet":"تسجيل شاليه آخر","Facebook group":"جروب فيسبوك","Join our Facebook group":"انضم لجروب القرية على فيسبوك","News, photos and discussions":"أخبار وصور ونقاشات السكان","Facebook group link":"رابط جروب الفيسبوك","Residents ({n})":"السكان ({n})","Edit":"تعديل","Edit resident":"تعديل بيانات الساكن","Remove resident?":"إزالة الساكن؟",
@@ -522,7 +522,11 @@ async function uploadDoc(input){
     await q(sb.from("unit_documents").insert({unit_id:unitId,kind,path}));
     for(const o of old){await sb.from("unit_documents").delete().eq("id",o.id);await sb.storage.from("unit-docs").remove([o.path])}
     await load();render();toast(t("Uploaded"))}catch(e){toast(e.message||t("Something went wrong"));render()}}
-async function openDoc(path){const {data,error}=await sb.storage.from("unit-docs").createSignedUrl(path,300);if(error)return toast(error.message);window.open(data.signedUrl,"_blank","noopener")}
+async function openDoc(path){sheet(t("Document"),`<p class="sub">${t("Loading…")}</p>`);
+  const {data,error}=await sb.storage.from("unit-docs").createSignedUrl(path,900);if(error){closeSheet();return toast(error.message)}
+  const u=data.signedUrl,pdf=/\.pdf$/i.test(path);const box=document.querySelector("#sheetIn .sb");if(!box)return;
+  box.innerHTML=(pdf?`<div class="empty" style="padding:24px 10px">${I("book")}PDF</div>`:`<a href="${u}" target="_blank" rel="noopener"><img src="${u}" alt="" style="width:100%;max-height:60vh;object-fit:contain;border-radius:12px;display:block;margin-bottom:12px;background:var(--field)"></a>`)
+   +`<a class="btn" href="${u}" target="_blank" rel="noopener">${pdf?t("Open PDF"):t("Open in full screen")}</a><div style="height:10px"></div><button class="btn ghost" data-a="closeSheet">${t("Close")}</button>`}
 /* ---------- navigation ---------- */
 let stack=[],route={name:"loading"},tmp={};
 function go(name,params={},push=true){if(push&&route)stack.push(route);route={name,...params};closeDrawer();render()}
