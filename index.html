@@ -12,7 +12,7 @@
 <meta property="og:title" content="ASU HUB — قرية أعضاء هيئة التدريس جامعة عين شمس">
 <meta property="og:description" content="تطبيق قرية أعضاء هيئة التدريس — جامعة عين شمس، الساحل الشمالي ك 72">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="icon" href="icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&family=Cairo:wght@500;600;700&display=swap">
@@ -55,6 +55,7 @@ button{cursor:pointer;border:0;background:none;padding:0}
 .dot{position:absolute;top:9px;right:10px;width:9px;height:9px;border-radius:50%;background:var(--coral);border:2px solid var(--bg)}
 .hubmark{width:96px;height:96px;border-radius:28px;background:#FFFFFF;box-shadow:0 4px 14px rgba(11,53,84,.12);display:grid;place-items:center;flex:none}
 .hubmark svg{width:86%;height:86%}
+.hubmark img{width:94%;height:94%;object-fit:contain;display:block}
 .hubmark.sm{width:64px;height:64px;border-radius:20px}
 .hubmark.xs{width:34px;height:34px;border-radius:10px}
 .word{font-weight:900;letter-spacing:.14em}
@@ -278,7 +279,7 @@ heart:'<path d="M12 20s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 9c0 6-8 11
 star:'<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
 };
 /* HUB mark: two upright "people" (head + body) joined by a bridge with a coral hub node */
-const HUB=`<svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="asuSun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F5A300"/><stop offset=".6" stop-color="#F9C43C"/><stop offset="1" stop-color="#FCDE8A"/></linearGradient></defs><circle cx="32" cy="29" r="25" fill="url(#asuSun)"/><path d="M8 38c10-7 26-10 49-7-6 10-17 16-28 16C19 47 11 43 8 38z" fill="#FCE9B6"/><circle cx="19" cy="15" r="4.3" fill="#1A8FD6"/><circle cx="45" cy="15" r="4.3" fill="#1A8FD6"/><rect x="14.5" y="21" width="9" height="23" rx="4.5" fill="#1A6FB8"/><rect x="40.5" y="21" width="9" height="23" rx="4.5" fill="#1A6FB8"/><rect x="22" y="29" width="20" height="5.5" rx="2.75" fill="#1A6FB8"/><path d="M32 9l3.2 5.5v24.5h-6.4V14.5z" fill="#FFFFFF" stroke="#1A6FB8" stroke-width="1.8" stroke-linejoin="round"/><rect x="26.5" y="39" width="11" height="3.2" rx="1" fill="#1A6FB8"/><path d="M3 51c10-5 21-5 30-1.5s19 4 28-.5" fill="none" stroke="#1A8FD6" stroke-width="4.2" stroke-linecap="round"/><path d="M8 58.5c9-3.5 18-3.5 26-1s15 2.5 22 0" fill="none" stroke="#3FB3EF" stroke-width="3.2" stroke-linecap="round"/></svg>`;
+const HUB=`<img src="logo.png" alt="ASU Resort">`;
 const hubMark=(c="")=>`<span class="hubmark ${c}">${HUB}</span>`;
 const I=(n,cls='')=>`<svg class="i ${cls}" viewBox="0 0 24 24" aria-hidden="true">${P[n]||''}</svg>`;
 const G='<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>';
@@ -405,7 +406,7 @@ const AR={
 "In progress":"جاري التنفيذ","Closed":"مغلق","Unpaid":"غير مدفوعة","Paid":"مدفوعة","Today":"اليوم","Yesterday":"أمس","{n} days ago":"منذ {n} يوم",
 "Security":"الأمن","Cleanliness":"النظافة","Landscaping":"الزراعة والحدائق","Noise":"الإزعاج","Parking":"الجراجات والركن","Facilities":"المرافق","Other":"أخرى",
 "Hello, I'm {n} from {c} · Unit {u}.":"السلام عليكم، أنا {n} من {c} · وحدة {u}.","Contact management on WhatsApp":"تواصل مع الإدارة على واتساب",
-"Choose your language":"اختار اللغة","Waiting for approval":"في انتظار الموافقة","Under review":"قيد المراجعة","Not approved":"لم تتم الموافقة",
+"Choose your language":"اختار اللغة","National ID number (14 digits)":"الرقم القومي (١٤ رقم)","Enter your 14-digit national ID number.":"اكتب الرقم القومي كامل (١٤ رقم).","This national ID number is not valid.":"الرقم القومي ده مش صحيح.","National ID":"الرقم القومي","Waiting for approval":"في انتظار الموافقة","Under review":"قيد المراجعة","Not approved":"لم تتم الموافقة",
 "The app unlocks after the management approves your chalet.":"التطبيق هيتفتح بعد ما الإدارة توافق على الشاليه.","Upload the remaining documents first.":"ارفع باقي المستندات الأول.",
 "All documents uploaded. The management is reviewing them.":"كل المستندات اتّرفعت. الإدارة بتراجعها دلوقتي.","Check status":"تحديث الحالة","Still waiting for approval":"لسه في انتظار الموافقة",
 "Contact the management if you think this is a mistake.":"تواصل مع الإدارة لو شايف إن في خطأ.","Register another chalet":"تسجيل شاليه آخر","Facebook group":"جروب فيسبوك","Join our Facebook group":"انضم لجروب القرية على فيسبوك","News, photos and discussions":"أخبار وصور ونقاشات السكان","Facebook group link":"رابط جروب الفيسبوك","Residents ({n})":"السكان ({n})","Edit":"تعديل","Edit resident":"تعديل بيانات الساكن","Remove resident?":"إزالة الساكن؟",
@@ -490,7 +491,7 @@ async function load(){
 }
 async function loadMgr(){
   const [units,requests,complaints]=await Promise.all([
-    q(sb.from("units").select("*, profiles(full_name,phone,relation,email), communities(name,district), unit_documents(id,kind,path), village_units(code, village_unit_owners(owner_name))").order("created_at",{ascending:false})),
+    q(sb.from("units").select("*, profiles(full_name,phone,relation,email,national_id), communities(name,district), unit_documents(id,kind,path), village_units(code, village_unit_owners(owner_name))").order("created_at",{ascending:false})),
     q(sb.from("requests").select("*, units(unit_no, communities(name)), profiles(full_name,phone)").neq("status","Closed").order("created_at",{ascending:false})),
     q(sb.from("complaints").select("*, units(unit_no, communities(name)), profiles(full_name,phone)").neq("status","Closed").order("created_at",{ascending:false})),
   ]);
@@ -527,7 +528,7 @@ let stack=[],route={name:"loading"},tmp={};
 function go(name,params={},push=true){if(push&&route)stack.push(route);route={name,...params};closeDrawer();render()}
 function back(){route=stack.pop()||{name:isMgr()&&!unit()?"manager":"home"};render()}
 function home(tab){stack=[];route={name:tab||(isMgr()&&!unit()?"manager":"home")};render()}
-function needsProfile(){const p=D.profile;return !p.full_name||!p.phone||(!isMgr()&&!p.relation)}
+function needsProfile(){const p=D.profile;return !p.full_name||!p.phone||(!isMgr()&&(!p.relation||!p.national_id))}
 async function boot(){
   route={name:"loading"};render();
   const {data}=await sb.auth.getSession();D.session=data.session;
@@ -584,7 +585,7 @@ V.profile=()=>{const p=D.profile;const mgr=isMgr();return `
   <div class="field"><label for="f-email">${t("Google account")}</label><input class="in" id="f-email" dir="ltr" value="${esc(p.email)}" disabled></div>
   <div class="field"><label for="f-phone">${t("Mobile number")}</label><input class="in" id="f-phone" dir="ltr" inputmode="tel" value="${esc(p.phone??"")}" placeholder="01x xxxx xxxx" autocomplete="tel"></div>
   ${mgr?"":`<div class="field"><label>${t("You are the unit's")}</label>${segs("rel",["Owner","Tenant","Family"])}</div>
-  <div class="field"><label for="f-nid">${t("National ID (last 4 digits)")}</label><input class="in" id="f-nid" dir="ltr" inputmode="numeric" maxlength="4" value="${esc(p.nid_last4??"")}" placeholder="••••"></div>`}
+  <div class="field"><label for="f-nid">${t("National ID number (14 digits)")}</label><input class="in" id="f-nid" dir="ltr" inputmode="numeric" maxlength="14" autocomplete="off" value="${esc(p.national_id??"")}" placeholder="2XXXXXXXXXXXXX"></div>`}
   <div class="err" id="err"></div>
  </div>
  <div class="foot"><button class="btn" data-a="saveProfile">${route.editing?t("Save"):t("Next")}</button></div>`};
@@ -752,7 +753,7 @@ V.manager=()=>{if(!isMgr())return V.home();
  const pend=D.m.units.filter(u=>u.status==="pending");const tb=tmp.mtab||"Approvals";let inner="";
  if(tb==="Approvals"){
   inner=pend.map(u=>{const have=Object.fromEntries(docsOf(u).map(d=>[d.kind,d]));const owner=u.village_units?.village_unit_owners?.owner_name;const ok=docCount(u)===3;
-   return `<div class="row" style="flex-wrap:wrap"><span class="avatar">${initials(u.profiles?.full_name)}</span><div class="t"><b>${t("Chalet")} ${esc(u.unit_no)}</b><span>${t("Registered owner")}: <b style="display:inline">${esc(owner||"—")}</b></span><span>${t("Applicant")}: ${esc(u.profiles?.full_name||u.profiles?.email)} · ${esc(t(u.profiles?.relation||""))} · <bdi>${esc(u.profiles?.phone||"")}</bdi></span>
+   return `<div class="row" style="flex-wrap:wrap"><span class="avatar">${initials(u.profiles?.full_name)}</span><div class="t"><b>${t("Chalet")} ${esc(u.unit_no)}</b><span>${t("Registered owner")}: <b style="display:inline">${esc(owner||"—")}</b></span><span>${t("Applicant")}: ${esc(u.profiles?.full_name||u.profiles?.email)} · ${esc(t(u.profiles?.relation||""))} · <bdi>${esc(u.profiles?.phone||"")}</bdi></span><span>${t("National ID")}: <bdi>${esc(u.profiles?.national_id||"—")}</bdi></span>
    <span style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">${DOC_KINDS.map(([k,l])=>have[k]?`<button class="pill p-ok" data-a="viewDoc" data-v="${esc(have[k].path)}">${t("View")}: ${t(l)}</button>`:`<span class="pill p-bad">${t("Missing")}: ${t(l)}</span>`).join("")}</span></div>
    <div class="sel-row" style="width:100%;margin-top:4px"><button class="btn small" data-a="setUnitStatus" data-v="${u.id}" data-s="approved" ${ok?"":"disabled style=\"opacity:.45\""}>${I("check")}${t("Approve")}</button><button class="btn small ghost" data-a="setUnitStatus" data-v="${u.id}" data-s="rejected">${t("Reject")}</button>${ok?"":`<span class="sub" style="font-size:12px;align-self:center">${t("Approve needs all 3 documents")}</span>`}</div></div>`}).join("")||empty("users",t("No residents waiting for approval."));
   const appr=D.m.units.filter(u=>u.status==="approved");
@@ -864,8 +865,11 @@ const A={
  google:el=>busy(el,async()=>{const {error}=await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+location.pathname}});if(error)throw error}),
  saveProfile:el=>busy(el,async()=>{const name=val("f-name"),phone=val("f-phone").replace(/[\s-]/g,"");
    if(!name)return err(t("Enter your full name."));if(!/^(\+?20|0020)?0?1[0125]\d{8}$/.test(phone))return err(t("Enter an Egyptian mobile number, e.g. 01012345678."));
-   const nid=val("f-nid");if(nid&&!/^\d{4}$/.test(nid))return err(t("Enter exactly 4 digits for the national ID."));
-   const patch={full_name:name,phone,lang:LANG};if(!isMgr()){patch.relation=tmp.rel||D.profile.relation||"Owner";patch.nid_last4=nid||null}
+   const nid=val("f-nid").replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/\D/g,"");
+   if(!isMgr()){if(nid.length!==14)return err(t("Enter your 14-digit national ID number."));
+     const y=(nid[0]==="2"?1900:2000)+ +nid.slice(1,3),m=+nid.slice(3,5),dd=+nid.slice(5,7),dt=new Date(y,m-1,dd);
+     if(!/^[23]/.test(nid)||dt.getMonth()!==m-1||dt.getDate()!==dd||dt>new Date())return err(t("This national ID number is not valid."))}
+   const patch={full_name:name,phone,lang:LANG};if(!isMgr()){patch.relation=tmp.rel||D.profile.relation||"Owner";patch.national_id=nid}
    D.profile=await q(sb.from("profiles").update(patch).eq("id",D.profile.id).select().single());
    if(route.editing){back();toast(t("Profile saved"))}else{tmp={};boot()}}),
  saveUnit:el=>busy(el,async()=>{const cid=D.communities[0]?.id,vid=val("f-vu"),u=(D.vunits.find(v=>v.id===vid)||{}).code;
