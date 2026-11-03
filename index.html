@@ -414,7 +414,11 @@ const AR={
 "In progress":"جاري التنفيذ","Closed":"مغلق","Unpaid":"غير مدفوعة","Paid":"مدفوعة","Today":"اليوم","Yesterday":"أمس","{n} days ago":"منذ {n} يوم",
 "Security":"الأمن","Cleanliness":"النظافة","Landscaping":"الزراعة والحدائق","Noise":"الإزعاج","Parking":"المواقف والجراجات","Facilities":"المرافق","Other":"أخرى",
 "Hello, I'm {n} from {c} · Unit {u}.":"السلام عليكم، أنا {n} من {c} · وحدة {u}.","Contact management on WhatsApp":"تواصل مع الإدارة على واتساب",
-"Choose your language":"اختر اللغة","Management approval of the rental":"تصريح من الإدارة بالموافقة على الإيجار","Photo or PDF of the permit issued by the management approving the rental.":"صورة أو ملف PDF لتصريح الإدارة بالموافقة على الإيجار.",
+"Choose your language":"اختر اللغة","Family members":"أفراد الأسرة","Add family member":"إضافة فرد من الأسرة","Your family members":"أفراد أسرتك","No family members added yet.":"لم تُضِف أي فرد من الأسرة بعد.","Gmail":"بريد Gmail",
+"Add your family members by their Gmail. They sign in to ASU HUB with that Gmail and upload only their national ID.":"أضف أفراد أسرتك ببريد Gmail الخاص بكل منهم، ثم يسجّل كلٌّ منهم الدخول إلى ASU HUB بهذا البريد ويرفع بطاقته الشخصية فقط.",
+"Waiting for them to sign in":"بانتظار تسجيل دخوله","Waiting for approval":"بانتظار موافقة الإدارة","Enter your family member's Gmail, not yours.":"أدخل بريد فرد الأسرة، لا بريدك أنت.","This Gmail is already added.":"هذا البريد مُضاف بالفعل.",
+"Family member added. Ask them to sign in to ASU HUB with this Gmail.":"تمت إضافة فرد الأسرة. اطلب منه تسجيل الدخول إلى ASU HUB بهذا البريد.","You were added as a family member":"تمت إضافتك فردًا من الأسرة",
+"{o} added you to chalet {u}. You only need to upload your national ID.":"أضافك {o} إلى شاليه {u}، ولا يلزمك سوى رفع بطاقتك الشخصية.","Join as family member":"الانضمام فردًا من الأسرة","Or register a chalet yourself":"أو سجّل شاليهًا بنفسك","Added by the owner":"أضافه المالك","Management approval of the rental":"تصريح من الإدارة بالموافقة على الإيجار","Photo or PDF of the permit issued by the management approving the rental.":"صورة أو ملف PDF لتصريح الإدارة بالموافقة على الإيجار.",
 "Upload the required documents so the management can approve your chalet.":"يُرجى رفع المستندات المطلوبة حتى تتمكن الإدارة من الموافقة على الشاليه.","All required documents must be uploaded before you can continue.":"يجب رفع جميع المستندات المطلوبة قبل المتابعة.",
 "Your request was not approved. Choose your chalet again and upload the required documents.":"لم تتم الموافقة على طلبك. اختر الشاليه من جديد، ثم ارفع المستندات المطلوبة.","Choose your chalet again and upload the required documents.":"اختر الشاليه من جديد وارفع المستندات المطلوبة.",
 "Register again":"التسجيل من جديد","Approve needs all required documents":"تتطلب الموافقة رفع جميع المستندات المطلوبة","Submit":"إرسال","Resubmit request":"إعادة إرسال الطلب","Your request was not approved. All three documents must be uploaded, then resubmit.":"لم تتم الموافقة على طلبك. يجب رفع المستندات الثلاثة كاملة، ثم إعادة إرسال الطلب.",
@@ -508,6 +512,9 @@ async function load(){
   const myU=units.filter(u=>u.community_id===cid);const uids=new Set(myU.map(u=>u.id));
   Object.assign(D,{profile,communities,units:myU,updates:updates.filter(x=>x.community_id===cid),requests:requests.filter(r=>uids.has(r.unit_id)),complaints:complaints.filter(c=>uids.has(c.unit_id)),passes:passes.filter(p=>uids.has(p.unit_id)),notes:notes.filter(n=>uids.has(n.unit_id)),notifs,violations:violations.filter(v=>v.units?.user_id===id&&uids.has(v.unit_id))});
   if(profile.lang&&!lsGet("asu-lang")&&profile.lang!==LANG){LANG=profile.lang;applyLang()}
+  D.invites=[];D.family=[];
+  if(profile.role==="resident"){try{D.invites=(await q(sb.rpc("my_family_invites"))).filter(x=>x.community_id===cid)}catch(e){}
+   if(myU.some(isOwnerU))try{D.family=await q(sb.from("family_invites").select("*, acc:units!family_invites_accepted_unit_fkey(status)").order("created_at"))}catch(e){}}
   if(isMgr())await loadMgr();
   if(isSec())D.scans=await q(sb.from("gate_scans").select("*").order("created_at",{ascending:false}).limit(20));
 }
@@ -528,9 +535,10 @@ async function loadMgr(){
 /* ---------- documents ---------- */
 const DOC_KINDS=[["national_id","National ID card","Front side photo, clear and readable.","badge"],["contract","Allocation letter / contract","Photo or PDF of the allocation letter or contract.","book"],["maintenance_receipt","Last maintenance fee receipt","Photo or PDF of the latest receipt.","clip"],["rental_permit","Management approval of the rental","Photo or PDF of the permit issued by the management approving the rental.","clip"]];
 const relOf=u=>u?.relation||u?.profiles?.relation||(u?.user_id===D.profile?.id?D.profile?.relation:null)||"Owner";
-const reqKinds=u=>relOf(u)==="Tenant"?["national_id","rental_permit"]:["national_id","contract","maintenance_receipt"];
+const reqKinds=u=>u?.sponsored_by?["national_id"]:relOf(u)==="Tenant"?["national_id","rental_permit"]:["national_id","contract","maintenance_receipt"];
 const reqDocs=u=>{const r=reqKinds(u);return DOC_KINDS.filter(d=>r.includes(d[0]))};
 const docNeed=u=>reqKinds(u).length;
+const isOwnerU=u=>u.status==="approved"&&relOf(u)==="Owner"&&!u.sponsored_by;
 const docsReady=u=>docCount(u)>=docNeed(u);
 const docsOf=u=>u?.unit_documents||[];
 const docCount=u=>{const r=reqKinds(u);return new Set(docsOf(u).filter(d=>r.includes(d.kind)).map(d=>d.kind)).size};
@@ -631,6 +639,7 @@ V.community=()=>{const redo=route.redo&&D.units.find(x=>x.id===route.redo);const
   ${adding?"":'<div class="steps"><i class="on"></i><i class="on"></i><i></i></div>'}
   <div class="hero" style="margin:0 0 18px">${hubMark("sm")}<div style="min-width:0"><b style="font-size:17px">${esc(c.name)}</b><div class="sub">${t("North Coast · km 72, Alexandria–Matrouh road")}</div></div></div>
   ${redo?`<div class="banner" style="margin:0 0 14px">${I("alert")}<span>${t("Your request was not approved. Choose your chalet again and upload the required documents.")}</span></div>`:""}
+  ${!redo&&D.invites?.length?D.invites.map(i=>`<div class="post" style="margin-bottom:14px"><b style="display:block;font-size:16px;margin-bottom:4px">${t("You were added as a family member")}</b><p class="sub" style="margin:0 0 12px">${t("{o} added you to chalet {u}. You only need to upload your national ID.",{o:esc(i.owner_name||""),u:"<b>"+esc(i.unit_no)+"</b>"})}</p><button class="btn" data-a="acceptInvite" data-v="${i.id}">${I("users")}${t("Join as family member")}</button></div>`).join("")+`<div class="sec"><h2>${t("Or register a chalet yourself")}</h2></div>`:""}
   <p class="lead">${t("Choose your chalet from the village list.")}</p>
   <div class="field"><label for="f-vu">${t("Chalet number")}</label><div class="sel"><select id="f-vu" required dir="ltr"><option value="" ${redo?"":"selected"}>${t("Choose your chalet")}</option>${Object.entries(groups).map(([g,list])=>`<optgroup label="${esc(g)}">${list.map(v=>`<option value="${v.id}" ${redo&&redo.village_unit_id===v.id?"selected":""}>${esc(v.code)}</option>`).join("")}</optgroup>`).join("")}</select>${I("down")}</div></div>
   ${redo?`<div class="field"><label>${t("You are the unit's")}</label>${segs("rel",["Owner","Tenant","Family"])}</div>`:""}
@@ -815,16 +824,29 @@ V.profileView=()=>`${topbar(t("My account"))}<div class="body">
  <div class="row">${I("phone")}<div class="t"><b dir="ltr" style="text-align:start">${esc(D.profile.phone)}</b><span>${t("Mobile")}</span></div></div>
  ${D.profile.relation?`<div class="row">${I("user")}<div class="t"><b>${esc(t(D.profile.relation))}</b><span>${t("Relation to unit")}</span></div></div>`:""}
  <div class="field" style="margin-top:6px"><label>${t("Language")}</label>${langSwitch()}</div>
+ ${D.units.some(isOwnerU)?`<button class="btn" data-a="go" data-v="family" style="margin:10px 0 0">${I("users")}${t("Family members")}</button>`:""}
  <button class="btn ghost" data-a="editProfile" style="margin:10px 0">${t("Edit profile")}</button>
  <button class="btn ghost" data-a="logout" style="margin-bottom:10px">${t("Sign out")}</button>
  ${isMgr()?"":`<button class="btn danger" data-a="askDelete">${t("Delete my account")}</button>`}</div>`;
+
+V.family=()=>{const mine=D.units.filter(isOwnerU);const st=i=>!i.accepted_unit?t("Waiting for them to sign in"):i.acc?.status==="approved"?t("Approved"):i.acc?.status==="rejected"?t("Not approved"):t("Waiting for approval");
+ return `${topbar(t("Family members"))}<div class="body">
+ <p class="lead" style="margin-bottom:14px">${t("Add your family members by their Gmail. They sign in to ASU HUB with that Gmail and upload only their national ID.")}</p>
+ ${mine.length>1?`<div class="field"><label for="fm-u">${t("Chalet")}</label>${selHTML("fm-u",t("Chalet"),mine.map(u=>[u.id,u.unit_no]),mine[0].id)}</div>`:""}
+ <div class="field"><label for="fm-n">${t("Full name")}</label><input class="in" id="fm-n" placeholder="${t("Full name")}"></div>
+ <div class="field"><label for="fm-e">${t("Gmail")}</label><input class="in" id="fm-e" type="email" dir="ltr" placeholder="name@gmail.com" autocomplete="off"></div>
+ <div class="err" id="err"></div>
+ <button class="btn" data-a="addFamily" data-v="${mine[0]?.id||""}">${I("plus")}${t("Add family member")}</button>
+ <div class="sec"><h2>${t("Your family members")}</h2></div>
+ ${(D.family||[]).map(i=>`<div class="row">${I("user")}<div class="t"><b>${esc(i.name||i.email)}</b><span dir="ltr" style="text-align:start">${esc(i.email)}</span><span>${st(i)} · ${t("Chalet")} ${esc((D.units.find(u=>u.id===i.unit_id)||{}).unit_no||"")}</span></div><button class="btn small ghost" data-a="delFamily" data-v="${i.id}">${t("Remove")}</button></div>`).join("")||empty("users",t("No family members added yet."))}
+ </div>`};
 
 /* ---------- manager (only rendered for role = manager; the database also enforces this) ---------- */
 V.manager=()=>{if(!isMgr())return V.home();
  const pend=D.m.units.filter(u=>u.status==="pending");const tb=tmp.mtab||"Approvals";let inner="";
  if(tb==="Approvals"){
   inner=pend.map(u=>{const have=Object.fromEntries(docsOf(u).map(d=>[d.kind,d]));const owner=u.village_units?.village_unit_owners?.owner_name;const ok=docsReady(u);
-   return `<div class="row" style="flex-wrap:wrap"><span class="avatar">${initials(u.profiles?.full_name)}</span><div class="t"><b>${t("Chalet")} ${esc(u.unit_no)}</b><span>${t("Registered owner")}: <b style="display:inline">${esc(owner||"—")}</b></span><span>${t("Applicant")}: ${esc(u.profiles?.full_name||u.profiles?.email)} · ${esc(t(relOf(u)))} · <bdi>${esc(u.profiles?.phone||"")}</bdi></span><span>${t("National ID")}: <bdi>${esc(u.profiles?.national_id||"—")}</bdi></span>
+   return `<div class="row" style="flex-wrap:wrap"><span class="avatar">${initials(u.profiles?.full_name)}</span><div class="t"><b>${t("Chalet")} ${esc(u.unit_no)}</b><span>${t("Registered owner")}: <b style="display:inline">${esc(owner||"—")}</b></span><span>${t("Applicant")}: ${esc(u.profiles?.full_name||u.profiles?.email)} · ${esc(t(relOf(u)))}${u.sponsored_by?" · "+t("Added by the owner"):""} · <bdi>${esc(u.profiles?.phone||"")}</bdi></span><span>${t("National ID")}: <bdi>${esc(u.profiles?.national_id||"—")}</bdi></span>
    <span style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">${reqDocs(u).map(([k,l])=>have[k]?`<button class="pill p-ok" data-a="viewDoc" data-v="${esc(have[k].path)}">${t("View")}: ${t(l)}</button>`:`<span class="pill p-bad">${t("Missing")}: ${t(l)}</span>`).join("")}</span></div>
    <div class="sel-row" style="width:100%;margin-top:4px"><button class="btn small" data-a="setUnitStatus" data-v="${u.id}" data-s="approved" ${ok?"":"disabled style=\"opacity:.45\""}>${I("check")}${t("Approve")}</button><button class="btn small ghost" data-a="setUnitStatus" data-v="${u.id}" data-s="rejected">${t("Reject")}</button>${ok?"":`<span class="sub" style="font-size:12px;align-self:center">${t("Approve needs all required documents")}</span>`}</div></div>`}).join("")||empty("users",t("No residents waiting for approval."));
   const appr=D.m.units.filter(u=>u.status==="approved");
@@ -964,6 +986,13 @@ const A={
    if(u.status==="rejected"){const {error}=await sb.rpc("resubmit_unit",{p_unit:u.id});if(error)throw error;await refresh();home();return toast(t("Request resubmitted. The management will review it."))}
    if(route.first)go("submitted",{},false);else back();toast(t("Documents uploaded. The management will review them."))}),
  goDocs(el){go("docs",{unit:el.dataset.v})},
+ acceptInvite:el=>busy(el,async()=>{const {data,error}=await sb.rpc("accept_family_invite",{p_invite:el.dataset.v});if(error)throw error;lsSet("asu-active",data);tmp={};await load();stack=[];route={name:"docs",unit:data,first:true};render()}),
+ addFamily:el=>busy(el,async()=>{const uid=document.getElementById("fm-u")?val("fm-u"):el.dataset.v;const name=val("fm-n"),em=val("fm-e").toLowerCase();
+   if(!name)return err(t("Enter your full name."));if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em))return err(t("Enter a valid Gmail address"));
+   if(em===(D.profile.email||"").toLowerCase())return err(t("Enter your family member's Gmail, not yours."));
+   const {error}=await sb.from("family_invites").insert({unit_id:uid,email:em,name});if(error)throw error.code==="23505"?new Error(t("This Gmail is already added.")):error;
+   await load();render();toast(t("Family member added. Ask them to sign in to ASU HUB with this Gmail."))}),
+ delFamily:el=>busy(el,async()=>{const {error}=await sb.from("family_invites").delete().eq("id",el.dataset.v);if(error)throw error;await load();render();toast(t("Removed"))}),
  redoUnit(el){tmp={};stack=[];route={name:"community",redo:el.dataset.v};render()},
  redoSave:el=>busy(el,async()=>{const vid=val("f-vu");if(!vid)return err(t("Choose your chalet"));const rel=tmp.rel||"Owner";
    const {error}=await sb.rpc("reregister_unit",{p_unit:route.redo,p_vunit:vid,p_relation:rel});if(error)throw error;
