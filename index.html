@@ -327,7 +327,7 @@ const sb=supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefr
 
 /* ---------- village config ---------- */
 const VILLAGE_SLUG="asu-north-coast";
-const VILLAGE_MAP="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent("قرية أعضاء هيئة التدريس جامعة عين شمس الساحل الشمالي الكيلو 72");
+const VILLAGE_MAP="https://maps.app.goo.gl/XcYaR6oFevtNUBPj7";
 /* ---------- language ---------- */
 const lsGet=k=>{try{return localStorage.getItem(k)}catch(e){return null}};
 const lsSet=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
@@ -405,7 +405,10 @@ const AR={
 "In progress":"جاري التنفيذ","Closed":"مغلق","Unpaid":"غير مدفوعة","Paid":"مدفوعة","Today":"اليوم","Yesterday":"أمس","{n} days ago":"منذ {n} يوم",
 "Security":"الأمن","Cleanliness":"النظافة","Landscaping":"الزراعة والحدائق","Noise":"الإزعاج","Parking":"الجراجات والركن","Facilities":"المرافق","Other":"أخرى",
 "Hello, I'm {n} from {c} · Unit {u}.":"السلام عليكم، أنا {n} من {c} · وحدة {u}.","Contact management on WhatsApp":"تواصل مع الإدارة على واتساب",
-"Choose your language":"اختار اللغة","Facebook group":"جروب فيسبوك","Join our Facebook group":"انضم لجروب القرية على فيسبوك","News, photos and discussions":"أخبار وصور ونقاشات السكان","Facebook group link":"رابط جروب الفيسبوك","Residents ({n})":"السكان ({n})","Edit":"تعديل","Edit resident":"تعديل بيانات الساكن","Remove resident?":"إزالة الساكن؟",
+"Choose your language":"اختار اللغة","Waiting for approval":"في انتظار الموافقة","Under review":"قيد المراجعة","Not approved":"لم تتم الموافقة",
+"The app unlocks after the management approves your chalet.":"التطبيق هيتفتح بعد ما الإدارة توافق على الشاليه.","Upload the remaining documents first.":"ارفع باقي المستندات الأول.",
+"All documents uploaded. The management is reviewing them.":"كل المستندات اتّرفعت. الإدارة بتراجعها دلوقتي.","Check status":"تحديث الحالة","Still waiting for approval":"لسه في انتظار الموافقة",
+"Contact the management if you think this is a mistake.":"تواصل مع الإدارة لو شايف إن في خطأ.","Register another chalet":"تسجيل شاليه آخر","Facebook group":"جروب فيسبوك","Join our Facebook group":"انضم لجروب القرية على فيسبوك","News, photos and discussions":"أخبار وصور ونقاشات السكان","Facebook group link":"رابط جروب الفيسبوك","Residents ({n})":"السكان ({n})","Edit":"تعديل","Edit resident":"تعديل بيانات الساكن","Remove resident?":"إزالة الساكن؟",
 "This removes their unit registration and uploaded documents. Their account stays, and they can register again.":"ده هيشيل تسجيل الوحدة والمستندات المرفوعة. حسابه هيفضل موجود ويقدر يسجل تاني.",
 "Resident updated":"تم تحديث بيانات الساكن","Resident removed":"تمت إزالة الساكن","Chalets and owners":"الشاليهات والملاك","Search chalet or owner":"ابحث برقم الشاليه أو اسم المالك",
 "Add chalet":"إضافة شاليه","Edit chalet":"تعديل الشاليه","Owner name":"اسم المالك","Chalet saved":"تم حفظ الشاليه","Chalet deleted":"تم حذف الشاليه","Delete chalet":"حذف الشاليه",
@@ -648,6 +651,18 @@ V.home=()=>{const u=unit();const c=comm();const unread=D.notifs.some(n=>!n.read)
   <div class="sec"><h2>${t("Community Updates")}</h2>${ups.length>3?`<button class="link" data-a="go" data-v="updates">${t("View All ›")}</button>`:""}</div>
   ${ups.slice(0,3).map(postHTML).join("")||empty("megaphone",t("No updates yet. News from your management will show here."))}
  </div>${tabs("home")}`};
+V.gate=()=>{const c=D.communities.find(x=>D.units.some(u=>u.community_id===x.id))||D.communities[0];
+ return `<header class="top"><span></span><h1>${t("Waiting for approval")}</h1><button class="iconbtn" data-a="go" data-v="profileView" aria-label="${t("My account")}">${I("user")}</button></header>
+ <div class="body">
+  <div style="display:flex;justify-content:center;margin:4px 0 14px">${hubMark()}</div>
+  <p class="lead" style="margin-bottom:16px">${t("The app unlocks after the management approves your chalet.")}</p>
+  ${D.units.map(u=>{const need=true;const n=docCount(u);return `<div class="row" style="flex-wrap:wrap">${I(u.status==="rejected"?"alert":"clip")}<div class="t"><b>${esc(unitLabel(u))}</b><span>${u.status==="rejected"?t("Not approved")+" · "+t("Contact the management if you think this is a mistake."):(need&&n<3?t("{n} of 3 uploaded",{n})+" · "+t("Upload the remaining documents first."):need?t("All documents uploaded. The management is reviewing them."):t("Under review"))}</span></div>${pill(u.status)}${need&&u.status!=="rejected"?`<div class="sel-row" style="width:100%"><button class="btn small ${n<3?"":"ghost"}" data-a="goDocs" data-v="${u.id}">${I("clip")}${t("Upload documents")}</button></div>`:""}</div>`}).join("")}
+  <button class="btn" data-a="checkStatus" style="margin:8px 0 16px">${t("Check status")}</button>
+  ${c?.whatsapp?waCard(c):""}
+  <div style="display:flex;justify-content:center;margin-top:18px">${langSwitch()}</div>
+  <div style="display:flex;gap:10px;margin-top:18px"><button class="btn ghost" data-a="addUnit">${I("plus")}${t("Register another chalet")}</button></div>
+  <button class="btn danger" data-a="logout" style="margin-top:10px">${t("Sign out")}</button>
+ </div>`};
 V.updates=()=>`${topbar(t("Community Updates"))}<div class="body">${myUpdates().map(postHTML).join("")||empty("megaphone",t("No updates yet."))}</div>`;
 
 const typeOf=id=>[...REQUEST_TYPES,...SERVICES].find(x=>x.id===id)||{en:id,ar:id};
@@ -777,6 +792,7 @@ V.manager=()=>{if(!isMgr())return V.home();
 const DOCK={national_id:"National ID card",contract:"Chalet contract",maintenance_receipt:"Last maintenance fee receipt"};
 const docsOfM=u=>(u?.unit_documents)||[];
 const MGR_ACTIONS={
+ checkStatus:el=>busy(el,async()=>{await load();if(locked()){render();toast(t("Still waiting for approval"))}else home("home")}),
  editRes(el){const u=D.m.units.find(x=>x.id===el.dataset.v);if(!u)return;const have=docsOfM(u);
    const unitField=`<div class="field"><label for="r-vu">${t("Chalet number")}</label>${selHTML("r-vu",t("Choose your chalet"),D.vunits.map(v=>[v.id,v.code]),u.village_unit_id||"")}</div>`;
    sheet(t("Edit resident"),`<p style="margin:0 0 12px"><b>${esc(u.profiles?.full_name||"")}</b><br><span class="sub" dir="ltr">${esc(u.profiles?.email||"")} · ${esc(u.profiles?.phone||"")}</span></p>
@@ -823,7 +839,10 @@ function sheet(title,body,sub=""){$("#sheetIn").innerHTML=`<div class="sh"><h3>$
 function closeSheet(){$("#sheet").classList.remove("on");$("#scrim2").classList.remove("on")}
 let tt;function toast(m){const el=$("#toast");el.textContent=m;el.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>el.classList.remove("on"),2600)}
 function qr(el,text){if(!el)return;el.innerHTML="";try{new QRCode(el,{text,width:168,height:168,colorDark:"#102A43",colorLight:"#ffffff"})}catch(e){el.textContent=text}}
-function render(){$("#screen").innerHTML=(V[route.name]||V.home)();
+const OPEN_ROUTES=["welcome","loading","error","profile","community","docs","submitted","gate","profileView"];
+const locked=()=>D.profile&&!isMgr()&&!D.units.some(u=>u.status==="approved");
+function render(){if(locked()&&!OPEN_ROUTES.includes(route.name)){stack=[];route={name:D.units.length?"gate":"community"}}
+ $("#screen").innerHTML=(V[route.name]||V.home)();
  if(route.name==="badge"&&unit()?.status==="approved")qr(document.getElementById("qr"),"HUB-BADGE:"+unit().id);
  const b=document.querySelector("#screen .body");if(b)b.scrollTop=0}
 const err=m=>{const e=document.getElementById("err");if(e)e.textContent=m};
