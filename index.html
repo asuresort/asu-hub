@@ -217,6 +217,12 @@ textarea.in{min-height:110px;resize:vertical;line-height:1.45}
 .verdict{border-radius:22px;padding:24px 18px;display:flex;flex-direction:column;align-items:center;gap:6px;color:#fff;margin-bottom:14px;text-align:center}
 .verdict.ok{background:#1E9E57}.verdict.no{background:#D64545}.verdict svg{width:60px;height:60px;stroke-width:3}.verdict b{font-size:25px}.verdict span{font-weight:700}
 .kv2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.kv2 small{display:block;color:var(--muted);font-size:12px;font-weight:700}.kv2 b{font-size:15px}
+.flagcard{display:flex;align-items:center;gap:12px;width:100%;text-align:start;background:color-mix(in srgb,var(--fc) 13%,var(--card,#fff));border:1.5px solid color-mix(in srgb,var(--fc) 45%,transparent);border-radius:16px;padding:10px 12px;margin:0 0 14px}
+.flagcard .t{display:flex;flex-direction:column;min-width:0}.flagcard b{font-size:15px}.flagcard small{font-weight:700;color:var(--muted);font-size:12px}.flagcard .t>span{font-size:13px;font-weight:700;color:var(--fc)}
+.flagico{width:38px;height:38px;border-radius:11px;background:var(--fc);color:#fff;display:grid;place-items:center;flex:none}.flagico svg{width:22px;height:22px}
+.flagpick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px}
+.flagpick button{color:#fff;border-radius:16px;padding:14px 6px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;opacity:.8;border:3px solid transparent}
+.flagpick button.on{opacity:1;border-color:var(--ink)}.flagpick b{font-size:14px}.flagpick span{font-size:11px;line-height:1.35}.flagpick svg{width:24px;height:24px}
 [dir=rtl] svg.flip{transform:scaleX(-1)}
 [dir=rtl] .sel svg{right:auto;left:18px}
 [dir=rtl] .sel select{padding-right:20px;padding-left:48px}
@@ -241,7 +247,7 @@ textarea.in{min-height:110px;resize:vertical;line-height:1.45}
 </div>
 <script>
 /* ---------- icons ---------- */
-const P={
+const P={flag:'<path d="M5 21V4"/><path d="M5 4h12l-2.5 4 2.5 4H5"/>',
 home:'<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
 grid:'<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>',
 compass:'<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/>',
@@ -419,7 +425,11 @@ const AR={
 "In progress":"جاري التنفيذ","Closed":"مغلق","Unpaid":"غير مدفوعة","Paid":"مدفوعة","Today":"اليوم","Yesterday":"أمس","{n} days ago":"منذ {n} يوم",
 "Security":"الأمن","Cleanliness":"النظافة","Landscaping":"الزراعة والحدائق","Noise":"الإزعاج","Parking":"المواقف والجراجات","Facilities":"المرافق","Other":"أخرى",
 "Hello, I'm {n} from {c} · Unit {u}.":"السلام عليكم، أنا {n} من {c} · وحدة {u}.","Contact management on WhatsApp":"تواصل مع الإدارة على واتساب",
-"Choose your language":"اختر اللغة","Attachment":"مرفق","Tap to open the PDF":"اضغط لفتح ملف PDF","Tap to open":"اضغط للفتح","Attach a PDF or image (optional)":"إرفاق ملف PDF أو صورة (اختياري)","Choose file: newsletter, announcement…":"اختر ملفًا: نشرة، أو إعلان…","Write the announcement or attach a file":"اكتب الإعلان أو أرفق ملفًا","File is larger than 15 MB":"حجم الملف أكبر من ١٥ ميجابايت","Delete":"حذف","Deleted":"المحذوفات","Active":"الحالية","Restore":"استعادة","Restored":"تمت الاستعادة","Reopen":"إعادة فتح","Moved to Deleted":"نُقل إلى المحذوفات","No deleted items.":"لا توجد عناصر محذوفة.","Deleted on {d}":"حُذف في {d}","Delete this item?":"حذف هذا العنصر؟","It moves to the Deleted tab. You can restore it from there.":"سيُنقل إلى تبويب المحذوفات، ويمكنك استعادته من هناك.","Change chalet or relation":"تغيير الشاليه أو الصفة","Family members":"أفراد الأسرة","Add family member":"إضافة فرد من الأسرة","Your family members":"أفراد أسرتك","No family members added yet.":"لم تُضِف أي فرد من الأسرة بعد.","Gmail":"بريد Gmail",
+"Choose your language":"اختر اللغة","Green flag":"الراية الخضراء","Yellow flag":"الراية الصفراء","Red flag":"الراية الحمراء","Sea is safe · Swimming allowed":"البحر آمن · السباحة مسموحة","Caution · Safe areas only":"احذر · المناطق الآمنة فقط","Danger · No swimming":"خطر · ممنوع السباحة",
+"The sea is completely safe. Swimming and enjoying the water are allowed without restrictions.":"حالة البحر آمنة تمامًا، وتُسمح السباحة والاستمتاع بالمياه دون قيود.",
+"The sea is relatively unstable (high waves or strong currents). Swimming is allowed with caution, and only in the safe areas marked by the lifeguards.":"حالة البحر غير مستقرة نسبيًا (أمواج مرتفعة أو تيارات قوية)، وتُسمح السباحة مع أخذ الحيطة والحذر وفي المناطق الآمنة التي يحددها المنقذون فقط.",
+"Danger. Swimming is completely forbidden because the sea is rough, the waves are high or the wind is strong.":"خطر، والسباحة ممنوعة نهائيًا بسبب اضطراب البحر وارتفاع الأمواج أو شدة الرياح.",
+"Beach flag":"راية الشاطئ","Beach flag today":"راية الشاطئ اليوم","Announced today":"أُعلنت اليوم","Not announced yet today.":"لم تُعلَن راية اليوم بعد.","Beach flag announced":"تم إعلان راية الشاطئ","Today":"اليوم","Attachment":"مرفق","Tap to open the PDF":"اضغط لفتح ملف PDF","Tap to open":"اضغط للفتح","Attach a PDF or image (optional)":"إرفاق ملف PDF أو صورة (اختياري)","Choose file: newsletter, announcement…":"اختر ملفًا: نشرة، أو إعلان…","Write the announcement or attach a file":"اكتب الإعلان أو أرفق ملفًا","File is larger than 15 MB":"حجم الملف أكبر من ١٥ ميجابايت","Delete":"حذف","Deleted":"المحذوفات","Active":"الحالية","Restore":"استعادة","Restored":"تمت الاستعادة","Reopen":"إعادة فتح","Moved to Deleted":"نُقل إلى المحذوفات","No deleted items.":"لا توجد عناصر محذوفة.","Deleted on {d}":"حُذف في {d}","Delete this item?":"حذف هذا العنصر؟","It moves to the Deleted tab. You can restore it from there.":"سيُنقل إلى تبويب المحذوفات، ويمكنك استعادته من هناك.","Change chalet or relation":"تغيير الشاليه أو الصفة","Family members":"أفراد الأسرة","Add family member":"إضافة فرد من الأسرة","Your family members":"أفراد أسرتك","No family members added yet.":"لم تُضِف أي فرد من الأسرة بعد.","Gmail":"بريد Gmail",
 "Add your family members by their Gmail. They sign in to ASU HUB with that Gmail and upload only their national ID.":"أضف أفراد أسرتك ببريد Gmail الخاص بكل منهم، ثم يسجّل كلٌّ منهم الدخول إلى ASU HUB بهذا البريد ويرفع بطاقته الشخصية فقط.",
 "Waiting for them to sign in":"بانتظار تسجيل دخوله","Waiting for approval":"بانتظار موافقة الإدارة","Enter your family member's Gmail, not yours.":"أدخل بريد فرد الأسرة، لا بريدك أنت.","This Gmail is already added.":"هذا البريد مُضاف بالفعل.",
 "Family member added. Ask them to sign in to ASU HUB with this Gmail.":"تمت إضافة فرد الأسرة. اطلب منه تسجيل الدخول إلى ASU HUB بهذا البريد.","You were added as a family member":"تمت إضافتك فردًا من الأسرة",
@@ -517,6 +527,7 @@ async function load(){
   const myU=units.filter(u=>u.community_id===cid);const uids=new Set(myU.map(u=>u.id));
   Object.assign(D,{profile,communities,units:myU,updates:updates.filter(x=>x.community_id===cid),requests:requests.filter(r=>uids.has(r.unit_id)),complaints:complaints.filter(c=>uids.has(c.unit_id)),passes:passes.filter(p=>uids.has(p.unit_id)),notes:notes.filter(n=>uids.has(n.unit_id)),notifs,violations:violations.filter(v=>v.units?.user_id===id&&uids.has(v.unit_id))});
   if(profile.lang&&!lsGet("asu-lang")&&profile.lang!==LANG){LANG=profile.lang;applyLang()}
+  D.flag=null;if(cid)try{D.flag=(await q(sb.from("beach_flags").select("*").eq("community_id",cid).order("flag_date",{ascending:false}).limit(1)))[0]||null}catch(e){}
   D.invites=[];D.family=[];
   if(profile.role==="resident"){try{D.invites=(await q(sb.rpc("my_family_invites"))).filter(x=>x.community_id===cid)}catch(e){}
    if(myU.some(isOwnerU))try{D.family=await q(sb.from("family_invites").select("*, acc:units!family_invites_accepted_unit_fkey(status)").order("created_at"))}catch(e){}}
@@ -678,6 +689,12 @@ V.submitted=()=>{const u=unit();const c=comm();return `
   ${c?.whatsapp?`<div style="width:100%;margin-top:10px">${waCard(c)}</div>`:""}</div>
  <div class="foot"><div class="steps" style="margin-bottom:16px"><i class="on"></i><i class="on"></i><i class="on"></i></div><button class="btn" data-a="tab" data-v="home">${t("Go to home")}</button></div>`};
 
+const FLAG={green:{c:"#1E9E57",n:"Green flag",s:"Sea is safe · Swimming allowed",l:"The sea is completely safe. Swimming and enjoying the water are allowed without restrictions."},
+ yellow:{c:"#F2B705",n:"Yellow flag",s:"Caution · Safe areas only",l:"The sea is relatively unstable (high waves or strong currents). Swimming is allowed with caution, and only in the safe areas marked by the lifeguards."},
+ red:{c:"#D64545",n:"Red flag",s:"Danger · No swimming",l:"Danger. Swimming is completely forbidden because the sea is rough, the waves are high or the wind is strong."}};
+const cairoToday=()=>new Date().toLocaleDateString("en-CA",{timeZone:"Africa/Cairo"});
+const flagCard=()=>{const f=D.flag;if(!f||!FLAG[f.color])return "";const F=FLAG[f.color];const today=f.flag_date===cairoToday();
+ return `<button class="flagcard" data-a="flagInfo" style="--fc:${F.c}"><span class="flagico">${I("flag")}</span><span class="t"><b>${t(F.n)} <small>— ${today?t("Today")+"، ":""}${fmtDate(f.flag_date)}</small></b><span>${t(F.s)}</span></span></button>`};
 const myUpdates=()=>{const c=comm();return c?D.updates.filter(x=>x.community_id===c.id):[]};
 const newsFile=p=>`<button class="row" data-a="viewNews" data-v="${esc(p.file_path)}" style="width:100%;margin:10px 0 0;text-align:start;background:var(--field)">${I(/\.pdf$/i.test(p.file_path)?"book":"clip")}<div class="t"><b dir="auto">${esc(p.file_name||t("Attachment"))}</b><span>${/\.pdf$/i.test(p.file_path)?t("Tap to open the PDF"):t("Tap to open")}</span></div>${I("right","flip")}</button>`;
 const postHTML=p=>`<article class="post"><div class="who"><span class="avatar">${initials(p.author)}</span><div><b style="font-size:14.5px">${esc(p.author==="Management office"?t("Management office"):p.author)}</b><div class="sub" style="font-size:12px">${ago(p.created_at)}</div></div></div>${p.body?`<p dir="auto">${esc(p.body)}</p>`:""}${p.file_path?newsFile(p):""}</article>`;
@@ -689,6 +706,7 @@ V.home=()=>{const u=unit();const c=comm();const unread=unreadN();const first=(D.
  const ups=myUpdates();
  return `${head}
  <div class="body">
+  ${flagCard()}
   <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
    <div style="min-width:0"><p class="h-hi">${t("Hi, {n}",{n:esc(first)})}</p><span class="unitline">${I("home")}${esc(unitLabel(u))}</span></div>
    <button data-a="go" data-v="badge" style="display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;font-weight:700;color:var(--muted)">${I("badge")}${t("ID Badge")}</button>
@@ -872,6 +890,9 @@ V.manager=()=>{if(!isMgr())return V.home();
   <div class="field"><label for="m-post">${t("Announcement")}</label><textarea class="in" id="m-post" dir="auto" placeholder="${t("e.g. The pool opens Friday at 9 am.")}"></textarea></div>
   <div class="field"><label>${t("Attach a PDF or image (optional)")}</label><label class="btn ghost" style="cursor:pointer;margin:0">${I("clip")}<span id="m-pfn">${t("Choose file: newsletter, announcement…")}</span><input type="file" id="m-pf" accept="application/pdf,image/*" hidden></label></div>
   <button class="btn cta" data-a="publish">${t("Publish update")}</button>
+  <div class="sec"><h2>${t("Beach flag today")}</h2></div>
+  ${D.flag?.flag_date===cairoToday()?`<p class="sub" style="margin:0 0 10px">${t("Announced today")}: <b style="color:${FLAG[D.flag.color].c}">${t(FLAG[D.flag.color].n)}</b></p>`:`<p class="sub" style="margin:0 0 10px">${t("Not announced yet today.")}</p>`}
+  <div class="flagpick">${Object.entries(FLAG).map(([k,F])=>`<button data-a="setFlag" data-v="${k}" style="background:${F.c}" class="${D.flag?.flag_date===cairoToday()&&D.flag.color===k?"on":""}">${I("flag")}<b>${t(F.n)}</b><span>${t(F.s)}</span></button>`).join("")}</div>
   <div class="sec"><h2>${t("Issue a violation")}</h2></div>
   ${D.m.units.some(u=>u.status==="approved")?`<div class="field"><label for="m-vu">${t("Unit")}</label>${selHTML("m-vu",t("Choose unit"),D.m.units.filter(u=>u.status==="approved").map(u=>[u.id,`${u.communities?.name} · ${u.unit_no} · ${u.profiles?.full_name||""}`]))}</div>
   <div class="field"><label for="m-vr">${t("Reason")}</label><input class="in" id="m-vr" dir="auto" placeholder="${t("e.g. Parking in fire lane")}"></div>
@@ -1067,6 +1088,8 @@ const A={
    if(f){if(f.size>15*1024*1024)return toast(t("File is larger than 15 MB"));const ext=(f.name.split(".").pop()||"pdf").toLowerCase().replace(/[^a-z0-9]/g,"");const path=`${c}/${Date.now()}.${ext}`;
     const {error}=await sb.storage.from("news-files").upload(path,f,{contentType:f.type||"application/pdf"});if(error)throw error;row.file_path=path;row.file_name=f.name}
    await q(sb.from("updates").insert(row));await refresh();toast(t("Update published"))}),
+ flagInfo(){const f=D.flag;if(!f)return;sheet(t("Beach flag"),`${Object.entries(FLAG).map(([k,F])=>`<div class="row" style="${k===f.color?`box-shadow:inset 0 0 0 2px ${F.c}`:"opacity:.75"}"><span class="flagico" style="--fc:${F.c}">${I("flag")}</span><div class="t"><b>${t(F.n)}${k===f.color?` — ${fmtDate(f.flag_date)}`:""}</b><span style="line-height:1.6">${t(F.l)}</span></div></div>`).join("")}<button class="btn ghost" data-a="closeSheet" style="margin-top:6px">${t("Close")}</button>`)},
+ setFlag:el=>busy(el,async()=>{const cid=D.communities[0]?.id;if(!cid)return;const {error}=await sb.from("beach_flags").upsert({community_id:cid,color:el.dataset.v,flag_date:cairoToday()},{onConflict:"community_id,flag_date"});if(error)throw error;await refresh();toast(t("Beach flag announced"))}),
  viewNews(el){openDoc(el.dataset.v,"news-files",t("Attachment"))},
  delUpdate:el=>busy(el,async()=>{const up=D.updates.find(x=>x.id===el.dataset.v);await q(sb.from("updates").delete().eq("id",el.dataset.v));if(up?.file_path)try{await sb.storage.from("news-files").remove([up.file_path])}catch(e){}await refresh();toast(t("Update deleted"))}),
  issueViolation:el=>busy(el,async()=>{const u=val("m-vu"),r=val("m-vr"),f=val("m-vf");if(!u||!r)return toast(t("Choose the unit and enter a reason"));
