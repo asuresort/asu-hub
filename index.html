@@ -425,7 +425,12 @@ const AR={
 "In progress":"جاري التنفيذ","Closed":"مغلق","Unpaid":"غير مدفوعة","Paid":"مدفوعة","Today":"اليوم","Yesterday":"أمس","{n} days ago":"منذ {n} يوم",
 "Security":"الأمن","Cleanliness":"النظافة","Landscaping":"الزراعة والحدائق","Noise":"الإزعاج","Parking":"المواقف والجراجات","Facilities":"المرافق","Other":"أخرى",
 "Hello, I'm {n} from {c} · Unit {u}.":"السلام عليكم، أنا {n} من {c} · وحدة {u}.","Contact management on WhatsApp":"تواصل مع الإدارة على واتساب",
-"Choose your language":"اختر اللغة","Green flag":"الراية الخضراء","Yellow flag":"الراية الصفراء","Red flag":"الراية الحمراء","Sea is safe · Swimming allowed":"البحر آمن · السباحة مسموحة","Caution · Safe areas only":"احذر · المناطق الآمنة فقط","Danger · No swimming":"خطر · ممنوع السباحة",
+"Choose your language":"اختر اللغة","Rent out your chalet":"تأجير الشاليه","Tenants do not use the app. Enter the tenant's details and upload their ID and the rental contract. The management will review the rental.":"لا يستخدم المستأجر التطبيق. أدخل بيانات المستأجر وارفع بطاقته الشخصية ومستند التعاقد، وستراجع الإدارة طلب التأجير.",
+"Tenant's full name":"اسم المستأجر بالكامل","Tenant's mobile number":"رقم هاتف المستأجر","From":"من","To":"إلى","Tenant's national ID":"البطاقة الشخصية للمستأجر","Rental contract document":"مستند التعاقد","Choose a photo or PDF":"اختر صورة أو ملف PDF","Submit rental":"إرسال طلب التأجير",
+"Your rentals":"طلبات التأجير","No rentals yet.":"لا توجد طلبات تأجير بعد.","Only an approved owner can register a rental.":"يمكن للمالك المعتمد فقط تسجيل التأجير.","From {a} to {b}":"من {a} إلى {b}","Tenant ID":"بطاقة المستأجر","Rental contract":"مستند التعاقد","Cancel request":"إلغاء الطلب","Chalet owner":"المالك",
+"Rental requests":"طلبات التأجير","No rental requests waiting.":"لا توجد طلبات تأجير منتظرة.","Recent rentals":"آخر طلبات التأجير","Residents waiting for approval":"السكان بانتظار الموافقة",
+"Enter the tenant's full name.":"أدخل اسم المستأجر بالكامل.","Choose the rental dates.":"اختر تاريخ بداية التأجير ونهايته.","The end date must be after the start date.":"يجب أن يكون تاريخ النهاية بعد تاريخ البداية.","Upload the tenant's ID and the rental contract.":"ارفع بطاقة المستأجر ومستند التعاقد.",
+"Rental submitted. The management will review it.":"تم إرسال طلب التأجير، وستراجعه الإدارة.","Rental approved":"تمت الموافقة على التأجير","Rental rejected":"تم رفض التأجير","Green flag":"الراية الخضراء","Yellow flag":"الراية الصفراء","Red flag":"الراية الحمراء","Sea is safe · Swimming allowed":"البحر آمن · السباحة مسموحة","Caution · Safe areas only":"احذر · المناطق الآمنة فقط","Danger · No swimming":"خطر · ممنوع السباحة",
 "The sea is completely safe. Swimming and enjoying the water are allowed without restrictions.":"حالة البحر آمنة تمامًا، وتُسمح السباحة والاستمتاع بالمياه دون قيود.",
 "The sea is relatively unstable (high waves or strong currents). Swimming is allowed with caution, and only in the safe areas marked by the lifeguards.":"حالة البحر غير مستقرة نسبيًا (أمواج مرتفعة أو تيارات قوية)، وتُسمح السباحة مع أخذ الحيطة والحذر وفي المناطق الآمنة التي يحددها المنقذون فقط.",
 "Danger. Swimming is completely forbidden because the sea is rough, the waves are high or the wind is strong.":"خطر، والسباحة ممنوعة نهائيًا بسبب اضطراب البحر وارتفاع الأمواج أو شدة الرياح.",
@@ -469,7 +474,8 @@ const AR={
 };
 Object.assign(AR,{});
 const arNum=x=>String(x).replace(/[0-9]/g,d=>"٠١٢٣٤٥٦٧٨٩"[d]);
-const t=(s,v={})=>{let r=(LANG==="ar"&&AR[s])||s;for(const k in v)r=r.replace("{"+k+"}",LANG==="ar"&&typeof v[k]==="number"?arNum(v[k]):v[k]);return r};
+const EN={"Faculty Village — Ain Shams University":"Ain Shams University Resort","Village":"Resort","Village settings":"Resort settings","Edit village settings":"Edit resort settings","Village location":"Resort location","Choose your chalet from the village list.":"Choose your chalet from the resort list.","Enter your chalet number so the village management can verify you.":"Enter your chalet number so the resort management can verify you.","The village is being set up. Please try again later.":"The resort is being set up. Please try again later.","Join the village group on Facebook":"Join the resort group on Facebook","Village news":"Resort news"};
+const t=(s,v={})=>{let r=(LANG==="ar"&&AR[s])||(LANG!=="ar"&&EN[s])||s;for(const k in v)r=r.replace("{"+k+"}",LANG==="ar"&&typeof v[k]==="number"?arNum(v[k]):v[k]);return r};
 function applyLang(){document.documentElement.lang=LANG;document.documentElement.dir=LANG==="ar"?"rtl":"ltr"}
 applyLang();
 const FAQ_AR=[
@@ -528,6 +534,7 @@ async function load(){
   Object.assign(D,{profile,communities,units:myU,updates:updates.filter(x=>x.community_id===cid),requests:requests.filter(r=>uids.has(r.unit_id)),complaints:complaints.filter(c=>uids.has(c.unit_id)),passes:passes.filter(p=>uids.has(p.unit_id)),notes:notes.filter(n=>uids.has(n.unit_id)),notifs,violations:violations.filter(v=>v.units?.user_id===id&&uids.has(v.unit_id))});
   if(profile.lang&&!lsGet("asu-lang")&&profile.lang!==LANG){LANG=profile.lang;applyLang()}
   D.flag=null;if(cid)try{D.flag=(await q(sb.from("beach_flags").select("*").eq("community_id",cid).order("flag_date",{ascending:false}).limit(1)))[0]||null}catch(e){}
+  D.rentals=[];if(profile.role==="resident"&&myU.some(isOwnerU))try{D.rentals=await q(sb.from("rentals").select("*, units(unit_no)").order("created_at",{ascending:false}))}catch(e){}
   D.invites=[];D.family=[];
   if(profile.role==="resident"){try{D.invites=(await q(sb.rpc("my_family_invites"))).filter(x=>x.community_id===cid)}catch(e){}
    if(myU.some(isOwnerU))try{D.family=await q(sb.from("family_invites").select("*, acc:units!family_invites_accepted_unit_fkey(status)").order("created_at"))}catch(e){}}
@@ -541,6 +548,7 @@ async function loadMgr(){
     q(sb.from("complaints").select("*, units(unit_no, communities(name)), profiles(full_name,phone)").order("created_at",{ascending:false}).limit(400)),
   ]);
   const cid=D.communities[0]?.id;const ids=new Set(units.filter(u=>u.community_id===cid).map(u=>u.id));
+  try{D.mrent=await q(sb.from("rentals").select("*, units(unit_no), profiles(full_name,phone)").order("created_at",{ascending:false}).limit(200))}catch(e){D.mrent=[]}
   try{D.mgrs=await q(sb.rpc("list_managers"))}catch(e){D.mgrs=[]}
   try{D.secs=await q(sb.rpc("list_security"))}catch(e){D.secs=[]}
   const ccid=D.communities[0]?.id;D.chalets=ccid?await q(sb.from("village_units").select("id,code,village_unit_owners(owner_name)").eq("community_id",ccid)):[];
@@ -607,7 +615,7 @@ const pill=s=>`<span class="pill ${PILL[s]||"p-closed"}">${esc(t(LBL[s]||s))}</s
 const selHTML=(id,ph,opts,v="")=>`<div class="sel"><select id="${id}" required><option value="" ${v?"":"selected"}>${esc(ph)}</option>${opts.map(o=>{const [ov,ol]=Array.isArray(o)?o:[o,o];return `<option value="${esc(ov)}" ${ov===v?"selected":""}>${esc(ol)}</option>`}).join("")}</select>${I("down")}</div>`;
 const cntB=n=>n>0?`<span class="cnt">${n>99?(LANG==="ar"?"+٩٩":"99+"):(LANG==="ar"?arNum(n):n)}</span>`:"";
 const unreadN=()=>(D.notifs||[]).filter(n=>!n.read).length;
-const mgrCounts=()=>{const m=D.m||{units:[],requests:[],complaints:[]};const ap=(m.units||[]).filter(u=>u.status==="pending").length;const rq=(m.requests||[]).filter(r=>r.status==="Open"&&!r.deleted_at).length+(m.complaints||[]).filter(c=>c.status==="Open"&&!c.deleted_at).length;return {Approvals:ap,Requests:rq,total:ap+rq}};
+const mgrCounts=()=>{const m=D.m||{units:[],requests:[],complaints:[]};const ap=(m.units||[]).filter(u=>u.status==="pending").length+(D.mrent||[]).filter(r=>r.status==="pending").length;const rq=(m.requests||[]).filter(r=>r.status==="Open"&&!r.deleted_at).length+(m.complaints||[]).filter(c=>c.status==="Open"&&!c.deleted_at).length;return {Approvals:ap,Requests:rq,total:ap+rq}};
 const segs=(k,list,cn={})=>`<div class="seg">${list.map(x=>`<button class="${(tmp[k]||list[0])===x?"on":""}" data-a="seg" data-k="${k}" data-v="${x}">${t(x)}${cntB(cn[x]||0)}</button>`).join("")}</div>`;
 const unitChip=()=>`<div class="unitchip"><span class="unitline">${I("home")}${esc(unitLabel(unit()))}</span></div>`;
 const empty=(ic,txt)=>`<div class="empty">${I(ic)}${txt}</div>`;
@@ -643,7 +651,7 @@ V.profile=()=>{const p=D.profile;const mgr=isMgr()||isSec();return `
   <div class="field"><label for="f-name">${t("Full name")}</label><input class="in" id="f-name" value="${esc(p.full_name??"")}" placeholder="${t("Full name")}" autocomplete="name"></div>
   <div class="field"><label for="f-email">${t("Google account")}</label><input class="in" id="f-email" dir="ltr" value="${esc(p.email)}" disabled></div>
   <div class="field"><label for="f-phone">${t("Mobile number")}</label><input class="in" id="f-phone" dir="ltr" inputmode="tel" value="${esc(p.phone??"")}" placeholder="01x xxxx xxxx" autocomplete="tel"></div>
-  ${mgr?"":`<div class="field"><label>${t("You are the unit's")}</label>${segs("rel",["Owner","Tenant","Family"])}</div>`}
+  ${mgr?"":`<div class="field"><label>${t("You are the unit's")}</label>${segs("rel",["Owner","Family"])}</div>`}
   <div class="err" id="err"></div>
  </div>
  <div class="foot"><button class="btn" data-a="saveProfile">${route.editing?t("Save"):t("Next")}</button></div>`};
@@ -661,7 +669,7 @@ V.community=()=>{const redo=route.redo&&D.units.find(x=>x.id===route.redo);const
   ${!redo&&D.invites?.length?D.invites.map(i=>`<div class="post" style="margin-bottom:14px"><b style="display:block;font-size:16px;margin-bottom:4px">${t("You were added as a family member")}</b><p class="sub" style="margin:0 0 12px">${t("{o} added you to chalet {u}. You only need to upload your national ID.",{o:esc(i.owner_name||""),u:"<b>"+esc(i.unit_no)+"</b>"})}</p><button class="btn" data-a="acceptInvite" data-v="${i.id}">${I("users")}${t("Join as family member")}</button></div>`).join("")+`<div class="sec"><h2>${t("Or register a chalet yourself")}</h2></div>`:""}
   <p class="lead">${t("Choose your chalet from the village list.")}</p>
   <div class="field"><label for="f-vu">${t("Chalet number")}</label><div class="sel"><select id="f-vu" required dir="ltr"><option value="" ${redo?"":"selected"}>${t("Choose your chalet")}</option>${Object.entries(groups).map(([g,list])=>`<optgroup label="${esc(g)}">${list.map(v=>`<option value="${v.id}" ${redo&&redo.village_unit_id===v.id?"selected":""}>${esc(v.code)}</option>`).join("")}</optgroup>`).join("")}</select>${I("down")}</div></div>
-  ${redo?`<div class="field"><label>${t("You are the unit's")}</label>${segs("rel",["Owner","Tenant","Family"])}</div>`:""}
+  ${redo?`<div class="field"><label>${t("You are the unit's")}</label>${segs("rel",["Owner","Family"])}</div>`:""}
   <div class="err" id="err"></div>
  </div>
  <div class="foot"><button class="btn" data-a="${redo?"redoSave":"saveUnit"}">${t("Next")}</button></div>`};
@@ -869,11 +877,31 @@ V.family=()=>{const mine=D.units.filter(isOwnerU);const st=i=>!i.accepted_unit?t
  ${(D.family||[]).map(i=>`<div class="row">${I("user")}<div class="t"><b>${esc(i.name||i.email)}</b><span dir="ltr" style="text-align:start">${esc(i.email)}</span><span>${st(i)} · ${t("Chalet")} ${esc((D.units.find(u=>u.id===i.unit_id)||{}).unit_no||"")}</span></div><button class="btn small ghost" data-a="delFamily" data-v="${i.id}">${t("Remove")}</button></div>`).join("")||empty("users",t("No family members added yet."))}
  </div>`};
 
+const rentRow=(r,mgr)=>`<div class="row" style="flex-wrap:wrap"><span class="avatar">${initials(r.tenant_name)}</span><div class="t"><b>${esc(r.tenant_name)}</b><span>${t("Chalet")} ${esc(r.units?.unit_no||"")}${r.tenant_phone?` — <bdi>${esc(r.tenant_phone)}</bdi>`:""}</span><span>${t("From {a} to {b}",{a:fmtDate(r.start_date),b:fmtDate(r.end_date)})}</span>${mgr?`<span>${t("Chalet owner")}: ${esc(r.profiles?.full_name||"")} — <bdi>${esc(r.profiles?.phone||"")}</bdi></span>`:""}</div>${pill(r.status)}
+ <div class="sel-row" style="width:100%;flex-wrap:wrap"><button class="pill p-ok" data-a="viewRentDoc" data-v="${esc(r.id_path)}">${t("View")}: ${t("Tenant ID")}</button><button class="pill p-ok" data-a="viewRentDoc" data-v="${esc(r.contract_path)}">${t("View")}: ${t("Rental contract")}</button></div>
+ ${mgr&&r.status==="pending"?`<div class="sel-row" style="width:100%;margin-top:4px"><button class="btn small" data-a="setRental" data-v="${r.id}" data-s="approved">${I("check")}${t("Approve")}</button><button class="btn small ghost" data-a="setRental" data-v="${r.id}" data-s="rejected">${t("Reject")}</button></div>`:""}
+ ${!mgr&&r.status==="pending"?`<div class="sel-row" style="width:100%"><button class="btn small ghost" data-a="delRental" data-v="${r.id}">${I("trash")}${t("Cancel request")}</button></div>`:""}</div>`;
+V.rentals=()=>{const mine=D.units.filter(isOwnerU);if(!mine.length)return `${topbar(t("Rent out your chalet"))}<div class="body">${empty("home",t("Only an approved owner can register a rental."))}</div>`;
+ const fileBtn=(id,l)=>`<div class="field"><label>${t(l)}</label><label class="btn ghost" style="cursor:pointer;margin:0">${I("clip")}<span id="${id}-n">${t("Choose a photo or PDF")}</span><input type="file" id="${id}" accept="image/*,application/pdf" hidden></label></div>`;
+ return `${topbar(t("Rent out your chalet"))}<div class="body">
+ <p class="lead" style="margin-bottom:14px">${t("Tenants do not use the app. Enter the tenant's details and upload their ID and the rental contract. The management will review the rental.")}</p>
+ ${mine.length>1?`<div class="field"><label for="rt-u">${t("Chalet")}</label>${selHTML("rt-u",t("Chalet"),mine.map(u=>[u.id,u.unit_no]),mine[0].id)}</div>`:`<input type="hidden" id="rt-u" value="${mine[0].id}">`}
+ <div class="field"><label for="rt-n">${t("Tenant's full name")}</label><input class="in" id="rt-n" dir="auto" placeholder="${t("Full name")}"></div>
+ <div class="field"><label for="rt-p">${t("Tenant's mobile number")}</label><input class="in" id="rt-p" dir="ltr" inputmode="tel" placeholder="01x xxxx xxxx"></div>
+ <div class="sel-row"><div class="field" style="flex:1"><label for="rt-s">${t("From")}</label><input class="in" id="rt-s" type="date" dir="ltr"></div><div class="field" style="flex:1"><label for="rt-e">${t("To")}</label><input class="in" id="rt-e" type="date" dir="ltr"></div></div>
+ ${fileBtn("rt-id","Tenant's national ID")}${fileBtn("rt-ct","Rental contract document")}
+ <div class="err" id="err"></div>
+ <button class="btn" data-a="addRental">${t("Submit rental")}</button>
+ <div class="sec"><h2>${t("Your rentals")}</h2></div>
+ ${(D.rentals||[]).map(r=>rentRow(r,false)).join("")||empty("home",t("No rentals yet."))}</div>`};
+
 /* ---------- manager (only rendered for role = manager; the database also enforces this) ---------- */
 V.manager=()=>{if(!isMgr())return V.home();
  const pend=D.m.units.filter(u=>u.status==="pending");const tb=tmp.mtab||"Approvals";let inner="";
  if(tb==="Approvals"){
-  inner=pend.map(u=>{const have=Object.fromEntries(docsOf(u).map(d=>[d.kind,d]));const owner=u.village_units?.village_unit_owners?.owner_name;const ok=docsReady(u);
+  const prent=(D.mrent||[]).filter(r=>r.status==="pending"),drent=(D.mrent||[]).filter(r=>r.status!=="pending").slice(0,10);
+  const rentHTML=`<div class="sec"><h2>${t("Rental requests")}</h2></div>${prent.map(r=>rentRow(r,true)).join("")||`<p class="sub">${t("No rental requests waiting.")}</p>`}${drent.length?`<details style="margin:6px 0 14px"><summary class="link">${t("Recent rentals")}</summary>${drent.map(r=>rentRow(r,true)).join("")}</details>`:""}<div class="sec"><h2>${t("Residents waiting for approval")}</h2></div>`;
+  inner=rentHTML+pend.map(u=>{const have=Object.fromEntries(docsOf(u).map(d=>[d.kind,d]));const owner=u.village_units?.village_unit_owners?.owner_name;const ok=docsReady(u);
    return `<div class="row" style="flex-wrap:wrap"><span class="avatar">${initials(u.profiles?.full_name)}</span><div class="t"><b>${t("Chalet")} ${esc(u.unit_no)}</b><span>${t("Registered owner")}: <b style="display:inline">${esc(owner||"—")}</b></span><span>${t("Applicant")}: ${esc(u.profiles?.full_name||u.profiles?.email)} · ${esc(t(relOf(u)))}${u.sponsored_by?" · "+t("Added by the owner"):""} · <bdi>${esc(u.profiles?.phone||"")}</bdi></span><span>${t("National ID")}: <bdi>${esc(u.profiles?.national_id||"—")}</bdi></span>
    <span style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">${reqDocs(u).map(([k,l])=>have[k]?`<button class="pill p-ok" data-a="viewDoc" data-v="${esc(have[k].path)}">${t("View")}: ${t(l)}</button>`:`<span class="pill p-bad">${t("Missing")}: ${t(l)}</span>`).join("")}</span></div>
    <div class="sel-row" style="width:100%;margin-top:4px"><button class="btn small" data-a="setUnitStatus" data-v="${u.id}" data-s="approved" ${ok?"":"disabled style=\"opacity:.45\""}>${I("check")}${t("Approve")}</button><button class="btn small ghost" data-a="setUnitStatus" data-v="${u.id}" data-s="rejected">${t("Reject")}</button>${ok?"":`<span class="sub" style="font-size:12px;align-self:center">${t("Approve needs all required documents")}</span>`}</div></div>`}).join("")||empty("users",t("No residents waiting for approval."));
@@ -959,7 +987,7 @@ const MGR_ACTIONS={
  delMgr:el=>busy(el,async()=>{const {error}=await sb.rpc("remove_manager",{p_email:el.dataset.v});if(error)throw error;closeSheet();await refresh();toast(t("Manager removed"))}),
 };
 /* ---------- drawer, sheet, toast ---------- */
-function drawerHTML(){const items=[["badge","ID Badge","badge"],["gatepass","Gate Pass","ticket"],["gatenote","Gate Notification","gate"],["requests","Requests","clip"],["complaints","Complaints","chat"],["violations","Violations","shield"],["guidelines","Community Info","book"],["directory","Phone Directory","phone"],["help","Help Center","help"],["properties","Manage properties","building"]];
+function drawerHTML(){const items=[["badge","ID Badge","badge"],["gatepass","Gate Pass","ticket"],...(D.units.some(isOwnerU)?[["rentals","Rent out your chalet","home"]]:[]),["gatenote","Gate Notification","gate"],["requests","Requests","clip"],["complaints","Complaints","chat"],["violations","Violations","shield"],["guidelines","Community Info","book"],["directory","Phone Directory","phone"],["help","Help Center","help"],["properties","Manage properties","building"]];
  const c=comm();
  return `<button class="me" data-a="go" data-v="profileView"><span class="avatar lg">${initials(D.profile?.full_name)}</span><div style="min-width:0"><b style="font-size:17px;display:block">${esc(D.profile?.full_name)}</b><span class="sub">${esc(isMgr()?t("App manager"):unitLabel(unit()))}</span></div></button>
  <nav>${isMgr()?`<button class="mi mgr" data-a="tab" data-v="manager">${I("settings")}${t("Manager panel")}</button>`:""}${items.map(([k,l,ic])=>`<button class="mi" data-a="go" data-v="${k}">${I(ic)}${t(l)}</button>`).join("")}
@@ -1090,6 +1118,18 @@ const A={
    await q(sb.from("updates").insert(row));await refresh();toast(t("Update published"))}),
  flagInfo(){const f=D.flag;if(!f)return;sheet(t("Beach flag"),`${Object.entries(FLAG).map(([k,F])=>`<div class="row" style="${k===f.color?`box-shadow:inset 0 0 0 2px ${F.c}`:"opacity:.75"}"><span class="flagico" style="--fc:${F.c}">${I("flag")}</span><div class="t"><b>${t(F.n)}${k===f.color?` — ${fmtDate(f.flag_date)}`:""}</b><span style="line-height:1.6">${t(F.l)}</span></div></div>`).join("")}<button class="btn ghost" data-a="closeSheet" style="margin-top:6px">${t("Close")}</button>`)},
  setFlag:el=>busy(el,async()=>{const cid=D.communities[0]?.id;if(!cid)return;const {error}=await sb.from("beach_flags").upsert({community_id:cid,color:el.dataset.v,flag_date:cairoToday()},{onConflict:"community_id,flag_date"});if(error)throw error;await refresh();toast(t("Beach flag announced"))}),
+ viewRentDoc(el){openDoc(el.dataset.v,"unit-docs",t("Document"))},
+ addRental:el=>busy(el,async()=>{const uid=val("rt-u"),n=val("rt-n"),ph=val("rt-p").replace(/[\s-]/g,""),sd=val("rt-s"),ed=val("rt-e"),fi=document.getElementById("rt-id").files[0],fc=document.getElementById("rt-ct").files[0];
+   if(!n)return err(t("Enter the tenant's full name."));if(ph&&!/^(\+?20|0020)?0?1[0125]\d{8}$/.test(ph))return err(t("Enter an Egyptian mobile number, e.g. 01012345678."));
+   if(!sd||!ed)return err(t("Choose the rental dates."));if(ed<sd)return err(t("The end date must be after the start date."));
+   if(!fi||!fc)return err(t("Upload the tenant's ID and the rental contract."));
+   const up=async(file,kind)=>{const f=await shrink(file);if(f.size>10485760)throw new Error(t("File is larger than 10 MB"));const ext=(f.type==="application/pdf"?"pdf":(f.name.split(".").pop()||"jpg")).toLowerCase().replace(/[^a-z0-9]/g,"")||"jpg";
+     const path=`${D.profile.id}/rentals/${kind}-${Date.now()}.${ext}`;const r=await sb.storage.from("unit-docs").upload(path,f,{contentType:f.type||"application/octet-stream"});if(r.error)throw r.error;return path};
+   const id_path=await up(fi,"tenant_id"),contract_path=await up(fc,"rental_contract");
+   const {error}=await sb.from("rentals").insert({unit_id:uid,tenant_name:n,tenant_phone:ph||null,start_date:sd,end_date:ed,id_path,contract_path});if(error)throw error;
+   await load();render();toast(t("Rental submitted. The management will review it."))}),
+ delRental:el=>busy(el,async()=>{const r=(D.rentals||[]).find(x=>x.id===el.dataset.v);const {error}=await sb.from("rentals").delete().eq("id",el.dataset.v);if(error)throw error;if(r)try{await sb.storage.from("unit-docs").remove([r.id_path,r.contract_path])}catch(e){}await load();render();toast(t("Removed"))}),
+ setRental:el=>busy(el,async()=>{const {error}=await sb.from("rentals").update({status:el.dataset.s}).eq("id",el.dataset.v);if(error)throw error;await refresh();toast(el.dataset.s==="approved"?t("Rental approved"):t("Rental rejected"))}),
  viewNews(el){openDoc(el.dataset.v,"news-files",t("Attachment"))},
  delUpdate:el=>busy(el,async()=>{const up=D.updates.find(x=>x.id===el.dataset.v);await q(sb.from("updates").delete().eq("id",el.dataset.v));if(up?.file_path)try{await sb.storage.from("news-files").remove([up.file_path])}catch(e){}await refresh();toast(t("Update deleted"))}),
  issueViolation:el=>busy(el,async()=>{const u=val("m-vu"),r=val("m-vr"),f=val("m-vf");if(!u||!r)return toast(t("Choose the unit and enter a reason"));
@@ -1122,7 +1162,7 @@ document.addEventListener("input",e=>{if(e.target.id==="m-q"){const qq=e.target.
 document.addEventListener("visibilitychange",async()=>{if(document.visibilityState!=="visible"||!D.session||!D.profile)return;
  if(!["home","manager","gate","notifs"].includes(route.name)||document.querySelector("#sheet.on"))return;try{await load();render()}catch(e){}});
 setInterval(async()=>{if(document.visibilityState!=="visible"||!D.session||!D.profile||!["home","manager","gate"].includes(route.name)||document.querySelector("#sheet.on,input:focus,textarea:focus"))return;try{await load();render()}catch(e){}},60000);
-document.addEventListener("change",e=>{if(e.target.id==="m-pf"){const n=document.getElementById("m-pfn");if(n)n.textContent=e.target.files?.[0]?.name||t("Choose file: newsletter, announcement…");return}if(e.target.matches("input[type=file][data-doc]"))return uploadDoc(e.target);if(e.target.id==="f-district"){tmp.district=e.target.value;tmp.comm="";tmp.unit=val("f-unit");render()}if(e.target.id==="f-comm")tmp.comm=e.target.value});
+document.addEventListener("change",e=>{if(e.target.id==="rt-id"||e.target.id==="rt-ct"){const n=document.getElementById(e.target.id+"-n");if(n)n.textContent=e.target.files?.[0]?.name||t("Choose a photo or PDF");return}if(e.target.id==="m-pf"){const n=document.getElementById("m-pfn");if(n)n.textContent=e.target.files?.[0]?.name||t("Choose file: newsletter, announcement…");return}if(e.target.matches("input[type=file][data-doc]"))return uploadDoc(e.target);if(e.target.id==="f-district"){tmp.district=e.target.value;tmp.comm="";tmp.unit=val("f-unit");render()}if(e.target.id==="f-comm")tmp.comm=e.target.value});
 $("#scrim").addEventListener("click",closeDrawer);$("#scrim2").addEventListener("click",closeSheet);
 sb.auth.onAuthStateChange((ev)=>{if(ev==="SIGNED_IN"&&route.name==="welcome")boot()});
 const qs=new URLSearchParams(location.search);if(qs.get("error_description"))setTimeout(()=>toast(qs.get("error_description")),400);
