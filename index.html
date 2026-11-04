@@ -421,7 +421,7 @@ const AR={
 "In progress":"جاري التنفيذ","Closed":"مغلق","Unpaid":"غير مدفوعة","Paid":"مدفوعة","Today":"اليوم","Yesterday":"أمس","{n} days ago":"منذ {n} يوم",
 "Security":"الأمن","Cleanliness":"النظافة","Landscaping":"الزراعة والحدائق","Noise":"الإزعاج","Parking":"المواقف والجراجات","Facilities":"المرافق","Other":"أخرى",
 "Hello, I'm {n} from {c} · Unit {u}.":"السلام عليكم، أنا {n} من {c} · وحدة {u}.","Contact management on WhatsApp":"تواصل مع الإدارة على واتساب",
-"Choose your language":"اختر اللغة","Preferred time":"الوقت المفضل","Choose your preferred time. The management sets the visit date based on technician availability and notifies you.":"اختر الوقت المفضل لك، وستحدد الإدارة تاريخ الزيارة حسب توفر الفني وتُرسل لك إشعارًا بالموعد.","Edit gate notification":"تعديل إبلاغ البوابة","Enter the company or driver name.":"أدخل اسم الشركة أو السائق.","Gate notification updated":"تم تعديل إبلاغ البوابة","Delete this gate notification?":"حذف إبلاغ البوابة؟","Security will no longer see it.":"لن يظهر لفريق الأمن بعد ذلك.","Bank details for payment":"بيانات البنك للسداد","Bank":"البنك","Account holder":"اسم الحساب","Account number":"رقم الحساب","Copy":"نسخ","Copied":"تم النسخ",
+"Choose your language":"اختر اللغة","Arrival date":"تاريخ الوصول","Arrival time":"ساعة الوصول","Expected":"الوصول المتوقع","Sent":"أُرسل","Preferred time":"الوقت المفضل","Choose your preferred time. The management sets the visit date based on technician availability and notifies you.":"اختر الوقت المفضل لك، وستحدد الإدارة تاريخ الزيارة حسب توفر الفني وتُرسل لك إشعارًا بالموعد.","Edit gate notification":"تعديل إبلاغ البوابة","Enter the company or driver name.":"أدخل اسم الشركة أو السائق.","Gate notification updated":"تم تعديل إبلاغ البوابة","Delete this gate notification?":"حذف إبلاغ البوابة؟","Security will no longer see it.":"لن يظهر لفريق الأمن بعد ذلك.","Bank details for payment":"بيانات البنك للسداد","Bank":"البنك","Account holder":"اسم الحساب","Account number":"رقم الحساب","Copy":"نسخ","Copied":"تم النسخ",
 "Upload a payment receipt":"رفع إيصال سداد","Amount paid (EGP)":"المبلغ المدفوع (بالجنيه)","Payment receipt":"إيصال السداد","e.g. Bank transfer on 4 Nov":"مثال: تحويل بنكي بتاريخ ٤ نوفمبر","Send receipt":"إرسال الإيصال","Your receipts":"إيصالاتك","No receipts yet.":"لا توجد إيصالات بعد.",
 "Upload the payment receipt.":"ارفع إيصال السداد.","Enter the amount as a number.":"أدخل المبلغ رقمًا.","Receipt sent. The management will review it.":"تم إرسال الإيصال، وستراجعه الإدارة.","Confirmed":"تم التأكيد","Confirm payment":"تأكيد السداد",
 "Payment receipts":"إيصالات السداد","No receipts waiting.":"لا توجد إيصالات منتظرة.","Recent receipts":"آخر الإيصالات","Payment confirmed. Update the chalet balance from the Resort tab if needed.":"تم تأكيد السداد. حدّث رصيد الشاليه من تبويب «القرية» إذا لزم الأمر.","Receipt rejected":"تم رفض الإيصال","Outside workers entry":"إضافة عمالة خارجية","Worker name(s)":"اسم العامل أو العمال","Type of work":"نوع العمالة","Cleaning":"نظافة","Maintenance":"صيانة","Other":"أخرى","Period":"المدة",
@@ -503,6 +503,10 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 const today=()=>new Date().toISOString().slice(0,10);
 const ago=d=>{const n=Math.floor((Date.now()-new Date(d))/864e5);return n<=0?t("Today"):n===1?t("Yesterday"):t("{n} days ago",{n})};
 const money=n=>new Intl.NumberFormat(LANG==="ar"?"ar-EG":"en-GB",{maximumFractionDigits:2}).format(Number(n)||0)+" "+t("EGP");
+const nowParts=()=>{const d=new Date(),z=n=>String(n).padStart(2,"0");return [`${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`,`${z(d.getHours())}:${z(d.getMinutes())}`]};
+const dtFields=(pre,iso)=>{const z=n=>String(n).padStart(2,"0");let [d,tm]=nowParts();if(iso){const x=new Date(iso);d=`${x.getFullYear()}-${z(x.getMonth()+1)}-${z(x.getDate())}`;tm=`${z(x.getHours())}:${z(x.getMinutes())}`}
+ return `<div class="sel-row"><div class="field" style="flex:1"><label for="${pre}-d">${t("Arrival date")}</label><input class="in" id="${pre}-d" type="date" dir="ltr" value="${d}"></div><div class="field" style="flex:1"><label for="${pre}-t">${t("Arrival time")}</label><input class="in" id="${pre}-t" type="time" dir="ltr" value="${tm}"></div></div>`};
+const dtVal=pre=>{const d=val(pre+"-d"),tm=val(pre+"-t");return d?new Date(`${d}T${tm||"00:00"}:00`).toISOString():null};
 const fmtDT=d=>new Date(d).toLocaleString(LANG==="ar"?"ar-EG":"en-GB",{weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
 const fmtDate=d=>new Date(d).toLocaleDateString(LANG==="ar"?"ar-EG":"en-GB",{day:"numeric",month:"short",year:"numeric"});
 const initials=n=>(n||"?").trim().split(/\s+/).map(w=>w[0]).slice(0,2).join("").toUpperCase();
@@ -839,9 +843,10 @@ V.gatenote=()=>`${topbar(t("Gate Notification"))}<div class="body">
  <div class="field"><label>${t("Type")}</label>${segs("gtype",["Delivery","Taxi / Limo","Maintenance"])}</div>
  <div class="field"><label for="g-name">${t("Company or driver name")}</label><input class="in" id="g-name" placeholder="Talabat, Uber"></div>
  <div class="field"><label for="g-plate">${t("Plate number (optional)")}</label><input class="in" id="g-plate" placeholder="ا ب ج 123"></div>
+ ${dtFields("g")}
  <button class="btn" data-a="notifyGate">${t("Notify gate")}</button>
  <div class="sec"><h2>${t("Recent")}</h2></div>
- ${D.notes.map(g=>`<div class="row" style="flex-wrap:wrap">${I("truck")}<div class="t"><b>${esc(t(g.kind))} · ${esc(g.name)}</b><span>${esc(g.plate||t("No plate"))} · ${ago(g.created_at)}</span></div><div class="sel-row" style="width:100%"><button class="btn small ghost" data-a="editNote" data-v="${g.id}">${I("settings")}${t("Edit")}</button><button class="btn small ghost" data-a="askDelNote" data-v="${g.id}">${I("trash")}${t("Delete")}</button></div></div>`).join("")||empty("gate",t("No notifications sent yet."))}</div>`;
+ ${D.notes.map(g=>`<div class="row" style="flex-wrap:wrap">${I("truck")}<div class="t"><b>${esc(t(g.kind))} · ${esc(g.name)}</b>${g.expected_at?`<span style="color:var(--teal);font-weight:800">${t("Expected")}: ${fmtDT(g.expected_at)}</span>`:""}<span>${esc(g.plate||t("No plate"))} · ${t("Sent")} ${ago(g.created_at)}</span></div><div class="sel-row" style="width:100%"><button class="btn small ghost" data-a="editNote" data-v="${g.id}">${I("settings")}${t("Edit")}</button><button class="btn small ghost" data-a="askDelNote" data-v="${g.id}">${I("trash")}${t("Delete")}</button></div></div>`).join("")||empty("gate",t("No notifications sent yet."))}</div>`;
 
 V.complaints=()=>`${topbar(t("Complaints"))}<div class="body">
  ${unit()?`<button class="btn" data-a="newComplaint" style="margin:6px 0 20px">${I("plus")}${t("New complaint")}</button>`:needUnit()}
@@ -1158,7 +1163,7 @@ const A={
    <p class="note">${t("Take a screenshot and send it to your guest. Security scans the code at the gate.")}</p>`,esc(p.units?.communities?.name));
    qr(document.getElementById("pqr"),"HUB-PASS:"+p.id)},
  notifyGate:el=>busy(el,async()=>{if(unit()?.status!=="approved")return toast(t("Available after your unit is approved"));const n=val("g-name");if(!n)return toast(t("Enter the company or driver name"));
-   await q(sb.from("gate_notes").insert({kind:tmp.gtype||"Delivery",name:n,plate:val("g-plate")||null,unit_id:unit().id}));await refresh();toast(t("Gate notified"))}),
+   await q(sb.from("gate_notes").insert({kind:tmp.gtype||"Delivery",name:n,plate:val("g-plate")||null,unit_id:unit().id,expected_at:dtVal("g")}));await refresh();toast(t("Gate notified"))}),
  newComplaint(){sheet(t("New complaint"),`<div class="field"><label for="c-cat">${t("Category")}</label>${selHTML("c-cat",t("Choose a category"),COMPLAINT_CATS.map(c=>[c,t(c)]))}</div>
    <div class="field"><label for="c-t">${t("What happened?")}</label><textarea class="in" id="c-t" dir="auto" placeholder="${t("Describe the issue, place and time")}"></textarea></div>
    ${mediaField("c-m","Add a photo or video (optional)")}
@@ -1175,9 +1180,10 @@ const A={
    sheet(t("Edit gate notification"),`<div class="field"><label>${t("Type")}</label>${segs("egtype",["Delivery","Taxi / Limo","Maintenance"])}</div>
    <div class="field"><label for="eg-name">${t("Company or driver name")}</label><input class="in" id="eg-name" value="${esc(g.name)}"></div>
    <div class="field"><label for="eg-plate">${t("Plate number (optional)")}</label><input class="in" id="eg-plate" value="${esc(g.plate||"")}"></div>
+   ${dtFields("eg",g.expected_at)}
    <div class="err" id="egerr"></div><button class="btn" data-a="saveNote" data-v="${g.id}">${t("Save changes")}</button>`)},
  saveNote:el=>busy(el,async()=>{const n=val("eg-name");if(!n){document.getElementById("egerr").textContent=t("Enter the company or driver name.");return}
-   const {error}=await sb.from("gate_notes").update({kind:tmp.egtype||"Delivery",name:n,plate:val("eg-plate")||null}).eq("id",el.dataset.v);if(error)throw error;closeSheet();await refresh();toast(t("Gate notification updated"))}),
+   const {error}=await sb.from("gate_notes").update({kind:tmp.egtype||"Delivery",name:n,plate:val("eg-plate")||null,expected_at:dtVal("eg")}).eq("id",el.dataset.v);if(error)throw error;closeSheet();await refresh();toast(t("Gate notification updated"))}),
  askDelNote(el){sheet(t("Delete this gate notification?"),`<p style="line-height:1.5;margin:0 0 16px">${t("Security will no longer see it.")}</p><button class="btn" style="background:var(--red);box-shadow:none" data-a="delNote" data-v="${el.dataset.v}">${t("Delete")}</button><div style="height:10px"></div><button class="btn ghost" data-a="closeSheet">${t("Cancel")}</button>`)},
  delNote:el=>busy(el,async()=>{const {error}=await sb.from("gate_notes").delete().eq("id",el.dataset.v);if(error)throw error;closeSheet();await refresh();toast(t("Removed"))}),
  askDelItem(el){sheet(t("Delete this item?"),`<p style="line-height:1.5;margin:0 0 16px">${t("It moves to the Deleted tab. You can restore it from there.")}</p><button class="btn" style="background:var(--red);box-shadow:none" data-a="delItem" data-k="${el.dataset.k}" data-v="${el.dataset.v}">${t("Delete")}</button><div style="height:10px"></div><button class="btn ghost" data-a="closeSheet">${t("Cancel")}</button>`)},
