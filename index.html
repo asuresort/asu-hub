@@ -247,7 +247,7 @@ textarea.in{min-height:110px;resize:vertical;line-height:1.45}
 </div>
 <script>
 /* ---------- icons ---------- */
-const P={flag:'<path d="M5 21V4"/><path d="M5 4h12l-2.5 4 2.5 4H5"/>',
+const P={clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',play:'<circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l6-3.5z"/>',flag:'<path d="M5 21V4"/><path d="M5 4h12l-2.5 4 2.5 4H5"/>',
 home:'<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
 grid:'<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>',
 compass:'<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/>',
@@ -305,11 +305,7 @@ const G='<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43
 
 const REQUEST_TYPES=[
  {id:"fin-res",en:"Finishing / maintenance permit (residential)",ar:"طلب تصريح تشطيب / صيانة لوحدة سكنية",ic:"paint",c:"var(--teal)"},
- {id:"fin-com",en:"Finishing / maintenance permit (commercial)",ar:"طلب تصريح تشطيب / صيانة لوحدة تجارية",ic:"store",c:"var(--amber)"},
- {id:"car",en:"Car gate card",ar:"طلب إصدار كارت مرور السيارة",ic:"car",c:"var(--red)"},
- {id:"auth",en:"Authorization (tawkeel)",ar:"طلب تفويض",ic:"key",c:"var(--green)"},
- {id:"idact",en:"Activate ID badge",ar:"طلب تفعيل بطاقة الهوية",ic:"badge",c:"var(--teal)"},
- {id:"bank",en:"Bank transfer",ar:"طلب تحويل بنكي",ic:"bank",c:"var(--ink)"},
+ {id:"workers",en:"Outside workers entry",ar:"إضافة عمالة خارجية",ic:"users",c:"var(--green)"},
  {id:"event",en:"Event / celebration permit",ar:"طلب تصريح بإقامة احتفال",ic:"party",c:"var(--amber)"},
  {id:"move",en:"Furniture move in / out",ar:"طلب تصريح نقل أثاث",ic:"box",c:"var(--red)"},
 ];
@@ -425,7 +421,15 @@ const AR={
 "In progress":"جاري التنفيذ","Closed":"مغلق","Unpaid":"غير مدفوعة","Paid":"مدفوعة","Today":"اليوم","Yesterday":"أمس","{n} days ago":"منذ {n} يوم",
 "Security":"الأمن","Cleanliness":"النظافة","Landscaping":"الزراعة والحدائق","Noise":"الإزعاج","Parking":"المواقف والجراجات","Facilities":"المرافق","Other":"أخرى",
 "Hello, I'm {n} from {c} · Unit {u}.":"السلام عليكم، أنا {n} من {c} · وحدة {u}.","Contact management on WhatsApp":"تواصل مع الإدارة على واتساب",
-"Choose your language":"اختر اللغة","Rent out your chalet":"تأجير الشاليه","Tenants do not use the app. Enter the tenant's details and upload their ID and the rental contract. The management will review the rental.":"لا يستخدم المستأجر التطبيق. أدخل بيانات المستأجر وارفع بطاقته الشخصية ومستند التعاقد، وستراجع الإدارة طلب التأجير.",
+"Choose your language":"اختر اللغة","Outside workers entry":"إضافة عمالة خارجية","Worker name(s)":"اسم العامل أو العمال","Type of work":"نوع العمالة","Cleaning":"نظافة","Maintenance":"صيانة","Other":"أخرى","Period":"المدة",
+"National ID photo of each worker":"صورة البطاقة الشخصية لكل عامل","Notes (optional)":"ملاحظات (اختياري)","e.g. cleaning the chalet before arrival":"مثال: تنظيف الشاليه قبل الوصول","Enter the worker name(s).":"أدخل اسم العامل أو العمال.","Choose a valid period.":"اختر مدة صحيحة.","Upload the national ID photo of each worker.":"ارفع صورة البطاقة الشخصية لكل عامل.",
+"Add a photo or video (optional)":"إضافة صورة أو فيديو (اختياري)","Choose a photo or video":"اختر صورة أو فيديو","files":"ملفات","File is larger than 50 MB":"حجم الملف أكبر من ٥٠ ميجابايت","ID":"البطاقة",
+"Technician visit":"موعد زيارة الفني","Change visit time":"تغيير موعد الزيارة","When will the technician come?":"متى يحضر الفني؟","The resident is notified with this date and time.":"سيصل للساكن إشعار بهذا التاريخ والموعد.","Resident's preference":"الموعد الذي اختاره الساكن","Date":"التاريخ","Time":"الساعة",
+"Save and mark in progress":"حفظ وتحويل إلى جارٍ التنفيذ","Choose the date and time.":"اختر التاريخ والساعة.","Visit scheduled. The resident was notified.":"تم تحديد الموعد وإشعار الساكن.",
+"Balance due":"الرصيد المستحق","Balance due (EGP)":"الرصيد المستحق (بالجنيه)","Balance note (optional)":"ملاحظة على الرصيد (اختياري)","e.g. Maintenance fees 2026":"مثال: مصروفات الصيانة ٢٠٢٦","Enter the balance as a number.":"أدخل الرصيد رقمًا.","EGP":"جنيه",
+"No balance has been entered yet.":"لم يُسجَّل رصيد بعد.","Amount due":"مبلغ مستحق السداد","No amount due":"لا يوجد مبلغ مستحق","Updated {d}":"آخر تحديث: {d}","Only an approved owner can see the balance.":"يرى المالك المعتمد فقط الرصيد المستحق.","For payment or questions, contact the management.":"للسداد أو الاستفسار تواصل مع الإدارة.",
+"Tenant's national ID number (14 digits)":"الرقم القومي للمستأجر (١٤ رقمًا)","Number of family members renting":"عدد أفراد الأسرة المستأجرة","ID photos of the other adult family members (optional)":"صور بطاقات باقي أفراد الأسرة البالغين (اختياري)",
+"Enter the tenant's 14-digit national ID number.":"أدخل الرقم القومي للمستأجر (١٤ رقمًا).","Enter the number of family members renting.":"أدخل عدد أفراد الأسرة المستأجرة.","{n} people":"{n} أفراد","Family ID":"بطاقة فرد","Rent out your chalet":"تأجير الشاليه","Tenants do not use the app. Enter the tenant's details and upload their ID and the rental contract. The management will review the rental.":"لا يستخدم المستأجر التطبيق. أدخل بيانات المستأجر وارفع بطاقته الشخصية ومستند التعاقد، وستراجع الإدارة طلب التأجير.",
 "Tenant's full name":"اسم المستأجر بالكامل","Tenant's mobile number":"رقم هاتف المستأجر","From":"من","To":"إلى","Tenant's national ID":"البطاقة الشخصية للمستأجر","Rental contract document":"مستند التعاقد","Choose a photo or PDF":"اختر صورة أو ملف PDF","Submit rental":"إرسال طلب التأجير",
 "Your rentals":"طلبات التأجير","No rentals yet.":"لا توجد طلبات تأجير بعد.","Only an approved owner can register a rental.":"يمكن للمالك المعتمد فقط تسجيل التأجير.","From {a} to {b}":"من {a} إلى {b}","Tenant ID":"بطاقة المستأجر","Rental contract":"مستند التعاقد","Cancel request":"إلغاء الطلب","Chalet owner":"المالك",
 "Rental requests":"طلبات التأجير","No rental requests waiting.":"لا توجد طلبات تأجير منتظرة.","Recent rentals":"آخر طلبات التأجير","Residents waiting for approval":"السكان بانتظار الموافقة",
@@ -495,6 +499,8 @@ const typeName=x=>LANG==="ar"?x.ar:x.en;
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const today=()=>new Date().toISOString().slice(0,10);
 const ago=d=>{const n=Math.floor((Date.now()-new Date(d))/864e5);return n<=0?t("Today"):n===1?t("Yesterday"):t("{n} days ago",{n})};
+const money=n=>new Intl.NumberFormat(LANG==="ar"?"ar-EG":"en-GB",{maximumFractionDigits:2}).format(Number(n)||0)+" "+t("EGP");
+const fmtDT=d=>new Date(d).toLocaleString(LANG==="ar"?"ar-EG":"en-GB",{weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
 const fmtDate=d=>new Date(d).toLocaleDateString(LANG==="ar"?"ar-EG":"en-GB",{day:"numeric",month:"short",year:"numeric"});
 const initials=n=>(n||"?").trim().split(/\s+/).map(w=>w[0]).slice(0,2).join("").toUpperCase();
 const $=s=>document.querySelector(s);
@@ -534,6 +540,7 @@ async function load(){
   Object.assign(D,{profile,communities,units:myU,updates:updates.filter(x=>x.community_id===cid),requests:requests.filter(r=>uids.has(r.unit_id)),complaints:complaints.filter(c=>uids.has(c.unit_id)),passes:passes.filter(p=>uids.has(p.unit_id)),notes:notes.filter(n=>uids.has(n.unit_id)),notifs,violations:violations.filter(v=>v.units?.user_id===id&&uids.has(v.unit_id))});
   if(profile.lang&&!lsGet("asu-lang")&&profile.lang!==LANG){LANG=profile.lang;applyLang()}
   D.flag=null;if(cid)try{D.flag=(await q(sb.from("beach_flags").select("*").eq("community_id",cid).order("flag_date",{ascending:false}).limit(1)))[0]||null}catch(e){}
+  D.balances=[];const ownV=myU.filter(isOwnerU).map(u=>u.village_unit_id).filter(Boolean);if(ownV.length)try{D.balances=await q(sb.from("chalet_balances").select("*").in("village_unit_id",ownV))}catch(e){}
   D.rentals=[];if(profile.role==="resident"&&myU.some(isOwnerU))try{D.rentals=await q(sb.from("rentals").select("*, units(unit_no)").order("created_at",{ascending:false}))}catch(e){}
   D.invites=[];D.family=[];
   if(profile.role==="resident"){try{D.invites=(await q(sb.rpc("my_family_invites"))).filter(x=>x.community_id===cid)}catch(e){}
@@ -551,7 +558,7 @@ async function loadMgr(){
   try{D.mrent=await q(sb.from("rentals").select("*, units(unit_no), profiles(full_name,phone)").order("created_at",{ascending:false}).limit(200))}catch(e){D.mrent=[]}
   try{D.mgrs=await q(sb.rpc("list_managers"))}catch(e){D.mgrs=[]}
   try{D.secs=await q(sb.rpc("list_security"))}catch(e){D.secs=[]}
-  const ccid=D.communities[0]?.id;D.chalets=ccid?await q(sb.from("village_units").select("id,code,village_unit_owners(owner_name)").eq("community_id",ccid)):[];
+  const ccid=D.communities[0]?.id;D.chalets=ccid?await q(sb.from("village_units").select("id,code,village_unit_owners(owner_name),chalet_balances(amount,note,updated_at)").eq("community_id",ccid)):[];
   D.chalets.sort((a,b)=>a.code.localeCompare(b.code,"en",{numeric:true}));
   D.m={units:units.filter(u=>u.community_id===cid),requests:requests.filter(r=>ids.has(r.unit_id)),complaints:complaints.filter(c=>ids.has(c.unit_id))};
 }
@@ -582,10 +589,16 @@ async function uploadDoc(input){
     await q(sb.from("unit_documents").insert({unit_id:unitId,kind,path}));
     for(const o of old){await sb.from("unit_documents").delete().eq("id",o.id);await sb.storage.from("unit-docs").remove([o.path])}
     await load();render();toast(t("Uploaded"))}catch(e){toast(e.message||t("Something went wrong"));render()}}
+const isVid=p=>/\.(mp4|mov|webm|3gp|m4v)$/i.test(p||"");
+async function upMedia(file,folder="media"){const f=await shrink(file);if(f.size>52428800)throw new Error(t("File is larger than 50 MB"));
+ const ext=(f.type==="application/pdf"?"pdf":/^video\//.test(f.type)?(f.name.split(".").pop()||"mp4"):(f.name.split(".").pop()||"jpg")).toLowerCase().replace(/[^a-z0-9]/g,"")||"jpg";
+ const path=`${D.profile.id}/${folder}/${Date.now()}-${Math.random().toString(36).slice(2,7)}.${ext}`;const r=await sb.storage.from("unit-docs").upload(path,f,{contentType:f.type||"application/octet-stream"});if(r.error)throw r.error;return path}
+const mediaBtns=(mp,label)=>(mp||"").split("|").filter(Boolean).map((p,i,a)=>`<button class="pill p-ok" data-a="viewMedia" data-v="${esc(p)}">${I(isVid(p)?"play":"clip")}${t(label||"Attachment")}${a.length>1?" "+(LANG==="ar"?arNum(i+1):i+1):""}</button>`).join("");
+const mediaField=(id,l,acc,mult)=>`<div class="field"><label>${t(l)}</label><label class="btn ghost" style="cursor:pointer;margin:0">${I("clip")}<span id="${id}-n">${t(/video/.test(acc||"video")?"Choose a photo or video":"Choose a photo or PDF")}</span><input type="file" id="${id}" accept="${acc||"image/*,video/*"}" ${mult?"multiple":""} hidden></label></div>`;
 async function openDoc(path,bucket="unit-docs",title){sheet(title||t("Document"),`<p class="sub">${t("Loading…")}</p>`);
   const {data,error}=await sb.storage.from(bucket).createSignedUrl(path,3600);if(error){closeSheet();return toast(error.message)}
   const u=data.signedUrl,pdf=/\.pdf$/i.test(path);const box=document.querySelector("#sheetIn .sb");if(!box)return;
-  box.innerHTML=(pdf?`<div class="empty" style="padding:24px 10px">${I("book")}PDF</div>`:`<a href="${u}" target="_blank" rel="noopener"><img src="${u}" alt="" style="width:100%;max-height:60vh;object-fit:contain;border-radius:12px;display:block;margin-bottom:12px;background:var(--field)"></a>`)
+  box.innerHTML=(isVid(path)?`<video src="${u}" controls playsinline style="width:100%;max-height:60vh;border-radius:12px;background:#000;display:block;margin-bottom:12px"></video>`:pdf?`<div class="empty" style="padding:24px 10px">${I("book")}PDF</div>`:`<a href="${u}" target="_blank" rel="noopener"><img src="${u}" alt="" style="width:100%;max-height:60vh;object-fit:contain;border-radius:12px;display:block;margin-bottom:12px;background:var(--field)"></a>`)
    +`<a class="btn" href="${u}" target="_blank" rel="noopener">${pdf?t("Open PDF"):t("Open in full screen")}</a><div style="height:10px"></div><button class="btn ghost" data-a="closeSheet">${t("Close")}</button>`}
 /* ---------- navigation ---------- */
 let stack=[],route={name:"loading"},tmp={};
@@ -782,7 +795,7 @@ V.updates=()=>`${topbar(t("Community Updates"))}<div class="body">${myUpdates().
 const typeOf=id=>[...REQUEST_TYPES,...SERVICES].find(x=>x.id===id)||{en:id,ar:id};
 const slotT=w=>String(w||"").replace(/Morning|Afternoon|Evening/,m=>t(m));
 const delBtn=(k,r)=>r.deleted_at?`<button class="btn small ghost" data-a="restoreItem" data-k="${k}" data-v="${r.id}">${t("Restore")}</button>`:`<button class="btn small ghost" data-a="askDelItem" data-k="${k}" data-v="${r.id}">${I("trash")}${t("Delete")}</button>`;
-const itemRow=r=>`<div class="row" style="flex-wrap:wrap"><div class="t"><b>${esc(typeName(typeOf(r.type)))}</b><span>${r.preferred_when?t("Booked for {w}",{w:esc(slotT(r.preferred_when))})+" · ":""}${fmtDate(r.created_at)} · ${t("Unit {u}",{u:esc(r.units?.unit_no)})}</span>${r.details?`<span dir="auto">${esc(r.details)}</span>`:""}${r.deleted_at?`<span>${t("Deleted on {d}",{d:fmtDate(r.deleted_at)})}</span>`:""}</div>${pill(r.status)}<div class="sel-row" style="width:100%">${delBtn("requests",r)}</div></div>`;
+const itemRow=r=>`<div class="row" style="flex-wrap:wrap"><div class="t"><b>${esc(typeName(typeOf(r.type)))}</b><span>${r.preferred_when?t("Booked for {w}",{w:esc(slotT(r.preferred_when))})+" · ":""}${fmtDate(r.created_at)} · ${t("Unit {u}",{u:esc(r.units?.unit_no)})}</span>${r.details?`<span dir="auto" style="white-space:pre-line">${esc(r.details)}</span>`:""}${r.scheduled_at&&r.status!=="Closed"?`<span style="color:var(--teal);font-weight:800">${I("clock")} ${t("Technician visit")}: ${fmtDT(r.scheduled_at)}</span>`:""}${r.media_path?`<span style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">${mediaBtns(r.media_path,r.type==="workers"?"ID":"Attachment")}</span>`:""}${r.deleted_at?`<span>${t("Deleted on {d}",{d:fmtDate(r.deleted_at)})}</span>`:""}</div>${pill(r.status)}<div class="sel-row" style="width:100%">${delBtn("requests",r)}</div></div>`;
 function catalog(kind){
  const k=kind==="request"?"rtab":"stab",first=kind==="request"?"New":"Services",tb=tmp[k]||first,list=kind==="request"?REQUEST_TYPES:SERVICES;
  if(!unit())return needUnit();
@@ -826,7 +839,7 @@ V.gatenote=()=>`${topbar(t("Gate Notification"))}<div class="body">
 
 V.complaints=()=>`${topbar(t("Complaints"))}<div class="body">
  ${unit()?`<button class="btn" data-a="newComplaint" style="margin:6px 0 20px">${I("plus")}${t("New complaint")}</button>`:needUnit()}
- ${segs("ctab",["Open","History","Deleted"])}<div style="height:12px"></div>${D.complaints.filter(c=>{const ct=tmp.ctab||"Open";return ct==="Deleted"?!!c.deleted_at:!c.deleted_at&&(ct==="Open"?c.status!=="Closed":c.status==="Closed")}).map(c=>`<div class="row" style="flex-wrap:wrap"><div class="t"><b>${esc(t(c.category))}</b><span dir="auto">${esc(c.body)}</span><span>${fmtDate(c.created_at)} · ${t("Unit {u}",{u:esc(c.units?.unit_no)})}</span>${c.deleted_at?`<span>${t("Deleted on {d}",{d:fmtDate(c.deleted_at)})}</span>`:""}</div>${pill(c.status)}<div class="sel-row" style="width:100%">${delBtn("complaints",c)}</div></div>`).join("")||(unit()?empty("chat",t("No complaints. That's a good sign.")):"")}</div>`;
+ ${segs("ctab",["Open","History","Deleted"])}<div style="height:12px"></div>${D.complaints.filter(c=>{const ct=tmp.ctab||"Open";return ct==="Deleted"?!!c.deleted_at:!c.deleted_at&&(ct==="Open"?c.status!=="Closed":c.status==="Closed")}).map(c=>`<div class="row" style="flex-wrap:wrap"><div class="t"><b>${esc(t(c.category))}</b><span dir="auto">${esc(c.body)}</span><span>${fmtDate(c.created_at)} · ${t("Unit {u}",{u:esc(c.units?.unit_no)})}</span>${c.media_path?`<span style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">${mediaBtns(c.media_path)}</span>`:""}${c.deleted_at?`<span>${t("Deleted on {d}",{d:fmtDate(c.deleted_at)})}</span>`:""}</div>${pill(c.status)}<div class="sel-row" style="width:100%">${delBtn("complaints",c)}</div></div>`).join("")||(unit()?empty("chat",t("No complaints. That's a good sign.")):"")}</div>`;
 
 V.violations=()=>`${topbar(t("Violations"))}<div class="body">
  ${D.violations.map(v=>`<div class="row">${I("shield")}<div class="t"><b dir="auto">${esc(v.reason)}</b><span>${fmtDate(v.created_at)} · ${t("Unit {u}",{u:esc(v.units?.unit_no)})}${v.fine?" · "+t("Fine EGP {f}",{f:esc(v.fine)}):""}</span></div>${pill(v.status)}</div>`).join("")||empty("shield",t("No violations on your units."))}</div>`;
@@ -877,8 +890,15 @@ V.family=()=>{const mine=D.units.filter(isOwnerU);const st=i=>!i.accepted_unit?t
  ${(D.family||[]).map(i=>`<div class="row">${I("user")}<div class="t"><b>${esc(i.name||i.email)}</b><span dir="ltr" style="text-align:start">${esc(i.email)}</span><span>${st(i)} · ${t("Chalet")} ${esc((D.units.find(u=>u.id===i.unit_id)||{}).unit_no||"")}</span></div><button class="btn small ghost" data-a="delFamily" data-v="${i.id}">${t("Remove")}</button></div>`).join("")||empty("users",t("No family members added yet."))}
  </div>`};
 
-const rentRow=(r,mgr)=>`<div class="row" style="flex-wrap:wrap"><span class="avatar">${initials(r.tenant_name)}</span><div class="t"><b>${esc(r.tenant_name)}</b><span>${t("Chalet")} ${esc(r.units?.unit_no||"")}${r.tenant_phone?` — <bdi>${esc(r.tenant_phone)}</bdi>`:""}</span><span>${t("From {a} to {b}",{a:fmtDate(r.start_date),b:fmtDate(r.end_date)})}</span>${mgr?`<span>${t("Chalet owner")}: ${esc(r.profiles?.full_name||"")} — <bdi>${esc(r.profiles?.phone||"")}</bdi></span>`:""}</div>${pill(r.status)}
- <div class="sel-row" style="width:100%;flex-wrap:wrap"><button class="pill p-ok" data-a="viewRentDoc" data-v="${esc(r.id_path)}">${t("View")}: ${t("Tenant ID")}</button><button class="pill p-ok" data-a="viewRentDoc" data-v="${esc(r.contract_path)}">${t("View")}: ${t("Rental contract")}</button></div>
+V.balance=()=>{const mine=D.units.filter(isOwnerU);return `${topbar(t("Balance due"))}<div class="body">
+ ${mine.map(u=>{const b=(D.balances||[]).find(x=>x.village_unit_id===u.village_unit_id);const amt=Number(b?.amount||0);
+  return `<div class="post" style="text-align:center;padding:22px 18px;margin-bottom:14px"><span class="sub">${t("Chalet")} <b>${esc(u.unit_no)}</b></span>
+  <div style="font-size:34px;font-weight:900;margin:8px 0;color:${amt>0?"var(--red)":"var(--green)"}">${b?money(amt):"—"}</div>
+  <b style="display:block">${!b?t("No balance has been entered yet."):amt>0?t("Amount due"):t("No amount due")}</b>
+  ${b?.note?`<p class="sub" dir="auto" style="margin:8px 0 0">${esc(b.note)}</p>`:""}${b?`<p class="sub" style="margin:8px 0 0;font-size:12px">${t("Updated {d}",{d:fmtDate(b.updated_at)})}</p>`:""}</div>`}).join("")||empty("bank",t("Only an approved owner can see the balance."))}
+ ${comm()?.whatsapp?`<p class="sub" style="text-align:center;margin:4px 0 10px">${t("For payment or questions, contact the management.")}</p>${waCard(comm())}`:""}</div>`};
+const rentRow=(r,mgr)=>`<div class="row" style="flex-wrap:wrap"><span class="avatar">${initials(r.tenant_name)}</span><div class="t"><b>${esc(r.tenant_name)}</b><span>${t("Chalet")} ${esc(r.units?.unit_no||"")}${r.tenant_phone?` — <bdi>${esc(r.tenant_phone)}</bdi>`:""}</span><span>${t("From {a} to {b}",{a:fmtDate(r.start_date),b:fmtDate(r.end_date)})}</span>${r.people?`<span>${t("{n} people",{n:r.people})}${r.tenant_nid?` — ${t("National ID")}: <bdi>${esc(r.tenant_nid)}</bdi>`:""}</span>`:""}${mgr?`<span>${t("Chalet owner")}: ${esc(r.profiles?.full_name||"")} — <bdi>${esc(r.profiles?.phone||"")}</bdi></span>`:""}</div>${pill(r.status)}
+ <div class="sel-row" style="width:100%;flex-wrap:wrap"><button class="pill p-ok" data-a="viewRentDoc" data-v="${esc(r.id_path)}">${t("View")}: ${t("Tenant ID")}</button><button class="pill p-ok" data-a="viewRentDoc" data-v="${esc(r.contract_path)}">${t("View")}: ${t("Rental contract")}</button>${(r.extra_ids||[]).map((p,i)=>`<button class="pill p-ok" data-a="viewRentDoc" data-v="${esc(p)}">${t("Family ID")} ${LANG==="ar"?arNum(i+1):i+1}</button>`).join("")}</div>
  ${mgr&&r.status==="pending"?`<div class="sel-row" style="width:100%;margin-top:4px"><button class="btn small" data-a="setRental" data-v="${r.id}" data-s="approved">${I("check")}${t("Approve")}</button><button class="btn small ghost" data-a="setRental" data-v="${r.id}" data-s="rejected">${t("Reject")}</button></div>`:""}
  ${!mgr&&r.status==="pending"?`<div class="sel-row" style="width:100%"><button class="btn small ghost" data-a="delRental" data-v="${r.id}">${I("trash")}${t("Cancel request")}</button></div>`:""}</div>`;
 V.rentals=()=>{const mine=D.units.filter(isOwnerU);if(!mine.length)return `${topbar(t("Rent out your chalet"))}<div class="body">${empty("home",t("Only an approved owner can register a rental."))}</div>`;
@@ -886,10 +906,12 @@ V.rentals=()=>{const mine=D.units.filter(isOwnerU);if(!mine.length)return `${top
  return `${topbar(t("Rent out your chalet"))}<div class="body">
  <p class="lead" style="margin-bottom:14px">${t("Tenants do not use the app. Enter the tenant's details and upload their ID and the rental contract. The management will review the rental.")}</p>
  ${mine.length>1?`<div class="field"><label for="rt-u">${t("Chalet")}</label>${selHTML("rt-u",t("Chalet"),mine.map(u=>[u.id,u.unit_no]),mine[0].id)}</div>`:`<input type="hidden" id="rt-u" value="${mine[0].id}">`}
+ <div class="field"><label for="rt-nid">${t("Tenant's national ID number (14 digits)")}</label><input class="in" id="rt-nid" dir="ltr" inputmode="numeric" maxlength="14" placeholder="2xxxxxxxxxxxxx"></div>
+ <div class="field"><label for="rt-pp">${t("Number of family members renting")}</label><input class="in" id="rt-pp" dir="ltr" inputmode="numeric" type="number" min="1" max="30" placeholder="4"></div>
  <div class="field"><label for="rt-n">${t("Tenant's full name")}</label><input class="in" id="rt-n" dir="auto" placeholder="${t("Full name")}"></div>
  <div class="field"><label for="rt-p">${t("Tenant's mobile number")}</label><input class="in" id="rt-p" dir="ltr" inputmode="tel" placeholder="01x xxxx xxxx"></div>
  <div class="sel-row"><div class="field" style="flex:1"><label for="rt-s">${t("From")}</label><input class="in" id="rt-s" type="date" dir="ltr"></div><div class="field" style="flex:1"><label for="rt-e">${t("To")}</label><input class="in" id="rt-e" type="date" dir="ltr"></div></div>
- ${fileBtn("rt-id","Tenant's national ID")}${fileBtn("rt-ct","Rental contract document")}
+ ${fileBtn("rt-id","Tenant's national ID")}${mediaField("rt-ex","ID photos of the other adult family members (optional)","image/*,application/pdf",true)}${fileBtn("rt-ct","Rental contract document")}
  <div class="err" id="err"></div>
  <button class="btn" data-a="addRental">${t("Submit rental")}</button>
  <div class="sec"><h2>${t("Your rentals")}</h2></div>
@@ -911,7 +933,7 @@ V.manager=()=>{if(!isMgr())return V.home();
  }
  if(tb==="Requests"){const rt=tmp.rqtab||"Active";const keep=r=>rt==="Deleted"?!!r.deleted_at:!r.deleted_at&&(rt==="Active"?r.status!=="Closed":r.status==="Closed");inner=segs("rqtab",["Active","History","Deleted"],{Active:mgrCounts().Requests})+'<div style="height:12px"></div>'+[...D.m.requests.map(r=>({...r,_k:"requests",_t:typeName(typeOf(r.type)),_b:[r.preferred_when&&t("Booked for {w}",{w:slotT(r.preferred_when)}),r.details].filter(Boolean).join(" · ")})),...D.m.complaints.map(c=>({...c,_k:"complaints",_t:t("Complaint")+" · "+t(c.category),_b:c.body}))].filter(keep)
   .sort((a,b)=>new Date(b.created_at)-new Date(a.created_at))
-  .map(r=>`<div class="row" style="flex-wrap:wrap"><div class="t"><b>${esc(r._t)}</b><span>${esc(r.units?.communities?.name)} · ${t("Unit {u}",{u:esc(r.units?.unit_no)})} · ${esc(r.profiles?.full_name||"")} · <bdi>${esc(r.profiles?.phone||"")}</bdi></span>${r._b?`<span dir="auto">${esc(r._b)}</span>`:""}<span>${fmtDate(r.created_at)}</span>${r.deleted_at?`<span>${t("Deleted on {d}",{d:fmtDate(r.deleted_at)})}</span>`:""}</div>${pill(r.status)}<div class="sel-row" style="width:100%">${r.deleted_at?"":r.status==="Open"?`<button class="btn small ghost" data-a="setStatus" data-k="${r._k}" data-v="${r.id}" data-s="In progress">${t("Mark in progress")}</button>`:""}${r.deleted_at||r.status==="Closed"?"":`<button class="btn small ghost" data-a="setStatus" data-k="${r._k}" data-v="${r.id}" data-s="Closed">${t("Close")}</button>`}${r.deleted_at||r.status!=="Closed"?"":`<button class="btn small ghost" data-a="setStatus" data-k="${r._k}" data-v="${r.id}" data-s="Open">${t("Reopen")}</button>`}${delBtn(r._k,r)}</div></div>`).join("")||empty(rt==="Deleted"?"trash":"clip",rt==="Deleted"?t("No deleted items."):rt==="History"?t("No closed items yet."):t("No open requests or complaints."))}
+  .map(r=>`<div class="row" style="flex-wrap:wrap"><div class="t"><b>${esc(r._t)}</b><span>${esc(r.units?.communities?.name)} · ${t("Unit {u}",{u:esc(r.units?.unit_no)})} · ${esc(r.profiles?.full_name||"")} · <bdi>${esc(r.profiles?.phone||"")}</bdi></span>${r._b?`<span dir="auto" style="white-space:pre-line">${esc(r._b)}</span>`:""}${r.scheduled_at&&r.status!=="Closed"?`<span style="color:var(--teal);font-weight:800">${t("Technician visit")}: ${fmtDT(r.scheduled_at)}</span>`:""}${r.media_path?`<span style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">${mediaBtns(r.media_path,r.type==="workers"?"ID":"Attachment")}</span>`:""}<span>${fmtDate(r.created_at)}</span>${r.deleted_at?`<span>${t("Deleted on {d}",{d:fmtDate(r.deleted_at)})}</span>`:""}</div>${pill(r.status)}<div class="sel-row" style="width:100%">${r.deleted_at?"":r.status==="Open"||(r.kind==="service"&&r.status==="In progress")?`<button class="btn small ghost" data-a="${r.kind==="service"?"askSchedule":"setStatus"}" data-k="${r._k}" data-v="${r.id}" data-s="In progress">${r.status==="In progress"?t("Change visit time"):t("Mark in progress")}</button>`:""}${r.deleted_at||r.status==="Closed"?"":`<button class="btn small ghost" data-a="setStatus" data-k="${r._k}" data-v="${r.id}" data-s="Closed">${t("Close")}</button>`}${r.deleted_at||r.status!=="Closed"?"":`<button class="btn small ghost" data-a="setStatus" data-k="${r._k}" data-v="${r.id}" data-s="Open">${t("Reopen")}</button>`}${delBtn(r._k,r)}</div></div>`).join("")||empty(rt==="Deleted"?"trash":"clip",rt==="Deleted"?t("No deleted items."):rt==="History"?t("No closed items yet."):t("No open requests or complaints."))}
  if(tb==="Post"){const cs=D.communities.map(c=>[c.id,c.name+" · "+c.district]);
   if(!cs.length)inner=empty("building",t("Add a community first."));
   else inner=`<div class="field"><label for="m-pc">${t("Community")}</label>${selHTML("m-pc",t("Choose community"),cs,cs.length===1?cs[0][0]:"")}</div>
@@ -930,7 +952,7 @@ V.manager=()=>{if(!isMgr())return V.home();
  if(tb==="Village"){const c=D.communities[0];inner=c?`<button class="row" data-a="editComm" data-v="${c.id}">${I("building")}<div class="t"><b>${esc(c.name)}</b><span>${t("Edit village settings")}${c.whatsapp?" · "+t("WhatsApp")+" ✓":""}</span></div>${I("right","flip")}</button>
   <div class="sec"><h2>${t("Chalets and owners")}</h2><button class="link" data-a="editChalet">+ ${t("Add chalet")}</button></div>
   <input class="in" id="m-q" placeholder="${t("Search chalet or owner")}" style="margin-bottom:10px">
-  <div id="chlist" style="max-height:420px;overflow:auto">${(D.chalets||[]).map(ch=>{const n=D.m.units.filter(u=>u.village_unit_id===ch.id).length;return `<button class="row" data-a="editChalet" data-v="${ch.id}" data-s="${esc((ch.code+" "+(ch.village_unit_owners?.owner_name||"")).toLowerCase())}"><b dir="ltr" style="min-width:44px">${esc(ch.code)}</b><div class="t"><b>${esc(ch.village_unit_owners?.owner_name||"—")}</b>${n?`<span>${t("{n} registered",{n})}</span>`:""}</div>${I("right","flip")}</button>`}).join("")}</div>
+  <div id="chlist" style="max-height:420px;overflow:auto">${(D.chalets||[]).map(ch=>{const n=D.m.units.filter(u=>u.village_unit_id===ch.id).length;return `<button class="row" data-a="editChalet" data-v="${ch.id}" data-s="${esc((ch.code+" "+(ch.village_unit_owners?.owner_name||"")).toLowerCase())}"><b dir="ltr" style="min-width:44px">${esc(ch.code)}</b><div class="t"><b>${esc(ch.village_unit_owners?.owner_name||"—")}</b>${n?`<span>${t("{n} registered",{n})}</span>`:""}${ch.chalet_balances?`<span>${t("Balance due")}: <b style="display:inline">${money(ch.chalet_balances.amount)}</b></span>`:""}</div>${I("right","flip")}</button>`}).join("")}</div>
   <div class="sec"><h2>${t("Import chalets")}</h2><span class="sub">${t("{n} chalets in the list",{n:D.vunits?.length||0})}</span></div>
   <div class="field"><label for="m-imp">${t("Paste one chalet per line: owner name, then chalet code (e.g. A12).")}</label><textarea class="in" id="m-imp" dir="auto" placeholder="د. أحمد سامي&#9;A9"></textarea></div>
   <button class="btn ghost" data-a="importUnits">${t("Import")}</button>`:empty("building",t("The village is being set up. Please try again later."))}
@@ -970,6 +992,8 @@ const MGR_ACTIONS={
  editChalet(el){const ch=(D.chalets||[]).find(x=>x.id===el.dataset.v)||{};
    sheet(ch.id?t("Edit chalet"):t("Add chalet"),`<div class="field"><label for="ch-c">${t("Chalet number")}</label><input class="in" id="ch-c" dir="ltr" value="${esc(ch.code||"")}" placeholder="A12"></div>
    <div class="field"><label for="ch-o">${t("Owner name")}</label><input class="in" id="ch-o" dir="auto" value="${esc(ch.village_unit_owners?.owner_name||"")}"></div>
+   <div class="field"><label for="ch-b">${t("Balance due (EGP)")}</label><input class="in" id="ch-b" dir="ltr" inputmode="decimal" value="${ch.chalet_balances?esc(ch.chalet_balances.amount):""}" placeholder="0"></div>
+   <div class="field"><label for="ch-bn">${t("Balance note (optional)")}</label><input class="in" id="ch-bn" dir="auto" value="${esc(ch.chalet_balances?.note||"")}" placeholder="${t("e.g. Maintenance fees 2026")}"></div>
    <div class="err" id="cherr"></div><button class="btn" data-a="saveChalet" data-v="${ch.id||""}">${t("Save changes")}</button>
    ${ch.id?`<div style="height:10px"></div><button class="btn danger" data-a="askDelChalet" data-v="${ch.id}">${t("Delete chalet")}</button>`:""}`)},
  saveChalet:el=>busy(el,async()=>{const code=val("ch-c").replace(/[\s-]/g,"").toUpperCase(),owner=val("ch-o");
@@ -978,6 +1002,9 @@ const MGR_ACTIONS={
    if(id)await q(sb.from("village_units").update({code}).eq("id",id));
    else id=(await q(sb.from("village_units").insert({community_id:D.communities[0].id,code}).select("id").single())).id;
    await q(sb.from("village_unit_owners").upsert({village_unit_id:id,owner_name:owner},{onConflict:"village_unit_id"}));
+   {const bs=val("ch-b").replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/[,\s]/g,""),bn=val("ch-bn"),old=(D.chalets||[]).find(x=>x.id===id)?.chalet_balances;
+    if(bs!==""){const amt=Number(bs);if(!isFinite(amt)){document.getElementById("cherr").textContent=t("Enter the balance as a number.");return}
+     if(!old||Number(old.amount)!==amt||(old.note||"")!==bn)await q(sb.from("chalet_balances").upsert({village_unit_id:id,amount:amt,note:bn||null,updated_at:new Date().toISOString()},{onConflict:"village_unit_id"}))}}
    closeSheet();await refresh();toast(t("Chalet saved"))}),
  askDelChalet(el){sheet(t("Delete chalet"),`<p style="line-height:1.5;margin:0 0 16px">${t("Delete this chalet from the list? Residents already registered on it keep their registration.")}</p><button class="btn" style="background:var(--red);box-shadow:none" data-a="delChalet" data-v="${el.dataset.v}">${t("Delete chalet")}</button><div style="height:10px"></div><button class="btn ghost" data-a="closeSheet">${t("Cancel")}</button>`)},
  delChalet:el=>busy(el,async()=>{await q(sb.from("village_units").delete().eq("id",el.dataset.v));closeSheet();await refresh();toast(t("Chalet deleted"))}),
@@ -987,7 +1014,7 @@ const MGR_ACTIONS={
  delMgr:el=>busy(el,async()=>{const {error}=await sb.rpc("remove_manager",{p_email:el.dataset.v});if(error)throw error;closeSheet();await refresh();toast(t("Manager removed"))}),
 };
 /* ---------- drawer, sheet, toast ---------- */
-function drawerHTML(){const items=[["badge","ID Badge","badge"],["gatepass","Gate Pass","ticket"],...(D.units.some(isOwnerU)?[["family","Family members","users"],["rentals","Rent out your chalet","home"]]:[]),["gatenote","Gate Notification","gate"],["requests","Requests","clip"],["complaints","Complaints","chat"],["violations","Violations","shield"],["guidelines","Community Info","book"],["directory","Phone Directory","phone"],["help","Help Center","help"],["properties","Manage properties","building"]];
+function drawerHTML(){const items=[["badge","ID Badge","badge"],["gatepass","Gate Pass","ticket"],...(D.units.some(isOwnerU)?[["balance","Balance due","bank"],["family","Family members","users"],["rentals","Rent out your chalet","home"]]:[]),["gatenote","Gate Notification","gate"],["requests","Requests","clip"],["complaints","Complaints","chat"],["violations","Violations","shield"],["guidelines","Community Info","book"],["directory","Phone Directory","phone"],["help","Help Center","help"],["properties","Manage properties","building"]];
  const c=comm();
  return `<button class="me" data-a="go" data-v="profileView"><span class="avatar lg">${initials(D.profile?.full_name)}</span><div style="min-width:0"><b style="font-size:17px;display:block">${esc(D.profile?.full_name)}</b><span class="sub">${esc(isMgr()?t("App manager"):unitLabel(unit()))}</span></div></button>
  <nav>${isMgr()?`<button class="mi mgr" data-a="tab" data-v="manager">${I("settings")}${t("Manager panel")}</button>`:""}${items.map(([k,l,ic])=>`<button class="mi" data-a="go" data-v="${k}">${I(ic)}${t(l)}</button>`).join("")}
@@ -1075,11 +1102,23 @@ const A={
    sheet(esc(typeName(x)),`
    ${kind==="service"?`<div class="field"><label for="n-date">${t("Preferred date")}</label><input class="in" id="n-date" type="date" min="${today()}" value="${today()}"></div>
    <div class="field"><label>${t("Time slot")}</label><div class="seg" id="slot">${["Morning","Afternoon","Evening"].map((s,i)=>`<button class="${i===0?"on":""}" data-a="pick" data-v="${s}">${t(s)}</button>`).join("")}</div></div>`:""}
-   <div class="field"><label for="n-det">${t("Details")}</label><textarea class="in" id="n-det" dir="auto" placeholder="${t("Describe what you need")}"></textarea></div>
+   ${x.id==="workers"?`<div class="field"><label for="w-n">${t("Worker name(s)")}</label><input class="in" id="w-n" dir="auto" placeholder="${t("Full name")}"></div>
+   <div class="field"><label>${t("Type of work")}</label><div class="seg" id="wtype">${["Cleaning","Maintenance","Other"].map((s,i)=>`<button class="${i===0?"on":""}" data-a="pick" data-v="${s}">${t(s)}</button>`).join("")}</div></div>
+   <div class="sel-row"><div class="field" style="flex:1"><label for="w-s">${t("From")}</label><input class="in" id="w-s" type="date" dir="ltr" min="${today()}" value="${today()}"></div><div class="field" style="flex:1"><label for="w-e">${t("To")}</label><input class="in" id="w-e" type="date" dir="ltr" min="${today()}" value="${today()}"></div></div>
+   ${mediaField("w-id","National ID photo of each worker","image/*,application/pdf",true)}`:""}
+   <div class="field"><label for="n-det">${t(x.id==="workers"?"Notes (optional)":"Details")}</label><textarea class="in" id="n-det" dir="auto" placeholder="${t(x.id==="workers"?"e.g. cleaning the chalet before arrival":"Describe what you need")}"></textarea></div>
+   ${x.id==="workers"?"":mediaField("n-m","Add a photo or video (optional)")}
+   <div class="err" id="nerr"></div>
    <button class="btn" data-a="submitItem" data-k="${kind}" data-v="${x.id}">${kind==="service"?t("Book service"):t("Submit request")}</button>`,`${esc(LANG==="ar"?x.en:x.ar)} · ${esc(unitLabel(unit()))}`)},
  pick(el){el.parentNode.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b===el))},
  submitItem:el=>busy(el,async()=>{const kind=el.dataset.k;const when=kind==="service"?`${val("n-date")} ${document.querySelector("#slot .on")?.dataset.v||""}`:null;
-   await q(sb.from("requests").insert({kind,type:el.dataset.v,details:val("n-det")||null,preferred_when:when,unit_id:unit().id}));
+   const ne=m=>{const e=document.getElementById("nerr");if(e)e.textContent=m};let details=val("n-det")||null,media_path=null;
+   if(el.dataset.v==="workers"){const wn=val("w-n"),ws=val("w-s"),we=val("w-e"),wt=document.querySelector("#wtype .on")?.dataset.v||"Other",fs=[...(document.getElementById("w-id")?.files||[])];
+     if(!wn)return ne(t("Enter the worker name(s)."));if(!ws||!we||we<ws)return ne(t("Choose a valid period."));if(!fs.length)return ne(t("Upload the national ID photo of each worker."));
+     media_path=(await Promise.all(fs.map(f=>upMedia(f,"workers")))).join("|");
+     details=[`${t("Worker name(s)")}: ${wn}`,`${t("Type of work")}: ${t(wt)}`,`${t("Period")}: ${ws} → ${we}`,details].filter(Boolean).join("\n")}
+   else{const mf=document.getElementById("n-m")?.files?.[0];if(mf)media_path=await upMedia(mf)}
+   await q(sb.from("requests").insert({kind,type:el.dataset.v,details,preferred_when:when,unit_id:unit().id,media_path}));
    closeSheet();tmp[kind==="request"?"rtab":"stab"]="Open";await refresh();toast(kind==="service"?t("Service booked"):t("Request submitted"))}),
  newPass(){if(unit()?.status!=="approved")return toast(t("Available after your unit is approved"));
    sheet(t("Create new gate pass"),`
@@ -1099,9 +1138,11 @@ const A={
    await q(sb.from("gate_notes").insert({kind:tmp.gtype||"Delivery",name:n,plate:val("g-plate")||null,unit_id:unit().id}));await refresh();toast(t("Gate notified"))}),
  newComplaint(){sheet(t("New complaint"),`<div class="field"><label for="c-cat">${t("Category")}</label>${selHTML("c-cat",t("Choose a category"),COMPLAINT_CATS.map(c=>[c,t(c)]))}</div>
    <div class="field"><label for="c-t">${t("What happened?")}</label><textarea class="in" id="c-t" dir="auto" placeholder="${t("Describe the issue, place and time")}"></textarea></div>
+   ${mediaField("c-m","Add a photo or video (optional)")}
    <div class="err" id="cerr"></div><button class="btn" data-a="saveComplaint">${t("Submit complaint")}</button>`)},
  saveComplaint:el=>busy(el,async()=>{const c=val("c-cat"),tx=val("c-t");if(!c||!tx){document.getElementById("cerr").textContent=t("Choose a category and describe the issue.");return}
-   await q(sb.from("complaints").insert({category:c,body:tx,unit_id:unit().id}));closeSheet();await refresh();toast(t("Complaint submitted"))}),
+   const mf=document.getElementById("c-m")?.files?.[0];const media_path=mf?await upMedia(mf):null;
+   await q(sb.from("complaints").insert({category:c,body:tx,unit_id:unit().id,media_path}));closeSheet();await refresh();toast(t("Complaint submitted"))}),
  editProfile(){tmp={rel:D.profile.relation};go("profile",{editing:true})},
  askDelete(){sheet(t("Delete your account?"),`<p style="line-height:1.5;margin:0 0 16px">${t("This permanently removes your profile, units, passes, requests and complaints. You will need to sign in and register again.")}</p><button class="btn" style="background:var(--red);box-shadow:none" data-a="doDelete">${t("Delete my account")}</button><div style="height:10px"></div><button class="btn ghost" data-a="closeSheet">${t("Keep my account")}</button>`)},
  doDelete:el=>busy(el,async()=>{const {error}=await sb.rpc("delete_my_account");if(error)throw error;await sb.auth.signOut();closeSheet();stack=[];boot()}),
@@ -1120,16 +1161,24 @@ const A={
  setFlag:el=>busy(el,async()=>{const cid=D.communities[0]?.id;if(!cid)return;const {error}=await sb.from("beach_flags").upsert({community_id:cid,color:el.dataset.v,flag_date:cairoToday()},{onConflict:"community_id,flag_date"});if(error)throw error;await refresh();toast(t("Beach flag announced"))}),
  viewRentDoc(el){openDoc(el.dataset.v,"unit-docs",t("Document"))},
  addRental:el=>busy(el,async()=>{const uid=val("rt-u"),n=val("rt-n"),ph=val("rt-p").replace(/[\s-]/g,""),sd=val("rt-s"),ed=val("rt-e"),fi=document.getElementById("rt-id").files[0],fc=document.getElementById("rt-ct").files[0];
-   if(!n)return err(t("Enter the tenant's full name."));if(ph&&!/^(\+?20|0020)?0?1[0125]\d{8}$/.test(ph))return err(t("Enter an Egyptian mobile number, e.g. 01012345678."));
+   const nid=val("rt-nid").replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/\D/g,""),pp=parseInt(val("rt-pp"),10);
+   if(!n)return err(t("Enter the tenant's full name."));if(!/^[23]\d{13}$/.test(nid))return err(t("Enter the tenant's 14-digit national ID number."));if(!(pp>=1&&pp<=30))return err(t("Enter the number of family members renting."));if(ph&&!/^(\+?20|0020)?0?1[0125]\d{8}$/.test(ph))return err(t("Enter an Egyptian mobile number, e.g. 01012345678."));
    if(!sd||!ed)return err(t("Choose the rental dates."));if(ed<sd)return err(t("The end date must be after the start date."));
    if(!fi||!fc)return err(t("Upload the tenant's ID and the rental contract."));
    const up=async(file,kind)=>{const f=await shrink(file);if(f.size>10485760)throw new Error(t("File is larger than 10 MB"));const ext=(f.type==="application/pdf"?"pdf":(f.name.split(".").pop()||"jpg")).toLowerCase().replace(/[^a-z0-9]/g,"")||"jpg";
      const path=`${D.profile.id}/rentals/${kind}-${Date.now()}.${ext}`;const r=await sb.storage.from("unit-docs").upload(path,f,{contentType:f.type||"application/octet-stream"});if(r.error)throw r.error;return path};
-   const id_path=await up(fi,"tenant_id"),contract_path=await up(fc,"rental_contract");
-   const {error}=await sb.from("rentals").insert({unit_id:uid,tenant_name:n,tenant_phone:ph||null,start_date:sd,end_date:ed,id_path,contract_path});if(error)throw error;
+   const id_path=await up(fi,"tenant_id"),contract_path=await up(fc,"rental_contract");const extra_ids=await Promise.all([...(document.getElementById("rt-ex")?.files||[])].map(f=>up(f,"family_id")));
+   const {error}=await sb.from("rentals").insert({unit_id:uid,tenant_name:n,tenant_phone:ph||null,start_date:sd,end_date:ed,id_path,contract_path,tenant_nid:nid,people:pp,extra_ids});if(error)throw error;
    await load();render();toast(t("Rental submitted. The management will review it."))}),
  delRental:el=>busy(el,async()=>{const r=(D.rentals||[]).find(x=>x.id===el.dataset.v);const {error}=await sb.from("rentals").delete().eq("id",el.dataset.v);if(error)throw error;if(r)try{await sb.storage.from("unit-docs").remove([r.id_path,r.contract_path])}catch(e){}await load();render();toast(t("Removed"))}),
  setRental:el=>busy(el,async()=>{const {error}=await sb.from("rentals").update({status:el.dataset.s}).eq("id",el.dataset.v);if(error)throw error;await refresh();toast(el.dataset.s==="approved"?t("Rental approved"):t("Rental rejected"))}),
+ viewMedia(el){openDoc(el.dataset.v,"unit-docs",t("Attachment"))},
+ askSchedule(el){const r=D.m.requests.find(x=>x.id===el.dataset.v)||{};const d=r.scheduled_at?new Date(r.scheduled_at):null;const pad=n=>String(n).padStart(2,"0");
+   sheet(t("When will the technician come?"),`<p class="sub" style="margin:0 0 12px">${t("The resident is notified with this date and time.")}</p>${r.preferred_when?`<p class="sub" style="margin:0 0 12px">${t("Resident's preference")}: <b>${esc(slotT(r.preferred_when))}</b></p>`:""}
+   <div class="sel-row"><div class="field" style="flex:1"><label for="sc-d">${t("Date")}</label><input class="in" id="sc-d" type="date" dir="ltr" value="${d?`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`:(r.preferred_when||"").slice(0,10)||today()}"></div><div class="field" style="flex:1"><label for="sc-t">${t("Time")}</label><input class="in" id="sc-t" type="time" dir="ltr" value="${d?`${pad(d.getHours())}:${pad(d.getMinutes())}`:"10:00"}"></div></div>
+   <div class="err" id="scerr"></div><button class="btn" data-a="saveSchedule" data-v="${el.dataset.v}">${t("Save and mark in progress")}</button>`)},
+ saveSchedule:el=>busy(el,async()=>{const d=val("sc-d"),tm=val("sc-t");if(!d||!tm){document.getElementById("scerr").textContent=t("Choose the date and time.");return}
+   const at=new Date(`${d}T${tm}:00`);const {error}=await sb.from("requests").update({status:"In progress",scheduled_at:at.toISOString()}).eq("id",el.dataset.v);if(error)throw error;closeSheet();await refresh();toast(t("Visit scheduled. The resident was notified."))}),
  viewNews(el){openDoc(el.dataset.v,"news-files",t("Attachment"))},
  delUpdate:el=>busy(el,async()=>{const up=D.updates.find(x=>x.id===el.dataset.v);await q(sb.from("updates").delete().eq("id",el.dataset.v));if(up?.file_path)try{await sb.storage.from("news-files").remove([up.file_path])}catch(e){}await refresh();toast(t("Update deleted"))}),
  issueViolation:el=>busy(el,async()=>{const u=val("m-vu"),r=val("m-vr"),f=val("m-vf");if(!u||!r)return toast(t("Choose the unit and enter a reason"));
@@ -1162,7 +1211,7 @@ document.addEventListener("input",e=>{if(e.target.id==="m-q"){const qq=e.target.
 document.addEventListener("visibilitychange",async()=>{if(document.visibilityState!=="visible"||!D.session||!D.profile)return;
  if(!["home","manager","gate","notifs"].includes(route.name)||document.querySelector("#sheet.on"))return;try{await load();render()}catch(e){}});
 setInterval(async()=>{if(document.visibilityState!=="visible"||!D.session||!D.profile||!["home","manager","gate"].includes(route.name)||document.querySelector("#sheet.on,input:focus,textarea:focus"))return;try{await load();render()}catch(e){}},60000);
-document.addEventListener("change",e=>{if(e.target.id==="rt-id"||e.target.id==="rt-ct"){const n=document.getElementById(e.target.id+"-n");if(n)n.textContent=e.target.files?.[0]?.name||t("Choose a photo or PDF");return}if(e.target.id==="m-pf"){const n=document.getElementById("m-pfn");if(n)n.textContent=e.target.files?.[0]?.name||t("Choose file: newsletter, announcement…");return}if(e.target.matches("input[type=file][data-doc]"))return uploadDoc(e.target);if(e.target.id==="f-district"){tmp.district=e.target.value;tmp.comm="";tmp.unit=val("f-unit");render()}if(e.target.id==="f-comm")tmp.comm=e.target.value});
+document.addEventListener("change",e=>{if(e.target.matches("input[type=file][id]")&&document.getElementById(e.target.id+"-n")&&!e.target.dataset.doc){const n=document.getElementById(e.target.id+"-n"),fs=[...(e.target.files||[])];n.textContent=fs.length>1?(LANG==="ar"?arNum(fs.length):fs.length)+" "+t("files"):fs[0]?.name||t("Choose a photo or video");return}if(e.target.id==="rt-id"||e.target.id==="rt-ct"){const n=document.getElementById(e.target.id+"-n");if(n)n.textContent=e.target.files?.[0]?.name||t("Choose a photo or PDF");return}if(e.target.id==="m-pf"){const n=document.getElementById("m-pfn");if(n)n.textContent=e.target.files?.[0]?.name||t("Choose file: newsletter, announcement…");return}if(e.target.matches("input[type=file][data-doc]"))return uploadDoc(e.target);if(e.target.id==="f-district"){tmp.district=e.target.value;tmp.comm="";tmp.unit=val("f-unit");render()}if(e.target.id==="f-comm")tmp.comm=e.target.value});
 $("#scrim").addEventListener("click",closeDrawer);$("#scrim2").addEventListener("click",closeSheet);
 sb.auth.onAuthStateChange((ev)=>{if(ev==="SIGNED_IN"&&route.name==="welcome")boot()});
 const qs=new URLSearchParams(location.search);if(qs.get("error_description"))setTimeout(()=>toast(qs.get("error_description")),400);
