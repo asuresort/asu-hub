@@ -421,7 +421,7 @@ const AR={
 "In progress":"جاري التنفيذ","Closed":"مغلق","Unpaid":"غير مدفوعة","Paid":"مدفوعة","Today":"اليوم","Yesterday":"أمس","{n} days ago":"منذ {n} يوم",
 "Security":"الأمن","Cleanliness":"النظافة","Landscaping":"الزراعة والحدائق","Noise":"الإزعاج","Parking":"المواقف والجراجات","Facilities":"المرافق","Other":"أخرى",
 "Hello, I'm {n} from {c} · Unit {u}.":"السلام عليكم، أنا {n} من {c} · وحدة {u}.","Contact management on WhatsApp":"تواصل مع الإدارة على واتساب",
-"Choose your language":"اختر اللغة","Tap to show":"اضغط للعرض","Tap to hide":"اضغط للإخفاء","Arrival date":"تاريخ الوصول","Arrival time":"ساعة الوصول","Expected":"الوصول المتوقع","Sent":"أُرسل","Preferred time":"الوقت المفضل","Choose your preferred time. The management sets the visit date based on technician availability and notifies you.":"اختر الوقت المفضل لك، وستحدد الإدارة تاريخ الزيارة حسب توفر الفني وتُرسل لك إشعارًا بالموعد.","Edit gate notification":"تعديل إبلاغ البوابة","Enter the company or driver name.":"أدخل اسم الشركة أو السائق.","Gate notification updated":"تم تعديل إبلاغ البوابة","Delete this gate notification?":"حذف إبلاغ البوابة؟","Security will no longer see it.":"لن يظهر لفريق الأمن بعد ذلك.","Bank details for payment":"بيانات البنك للسداد","Bank":"البنك","Account holder":"اسم الحساب","Account number":"رقم الحساب","Copy":"نسخ","Copied":"تم النسخ",
+"Choose your language":"اختر اللغة","This section is for residents. Use the Manager panel to manage the resort.":"هذا القسم مخصص للسكان. استخدم لوحة الإدارة لإدارة القرية.","Tap to show":"اضغط للعرض","Tap to hide":"اضغط للإخفاء","Arrival date":"تاريخ الوصول","Arrival time":"ساعة الوصول","Expected":"الوصول المتوقع","Sent":"أُرسل","Preferred time":"الوقت المفضل","Choose your preferred time. The management sets the visit date based on technician availability and notifies you.":"اختر الوقت المفضل لك، وستحدد الإدارة تاريخ الزيارة حسب توفر الفني وتُرسل لك إشعارًا بالموعد.","Edit gate notification":"تعديل إبلاغ البوابة","Enter the company or driver name.":"أدخل اسم الشركة أو السائق.","Gate notification updated":"تم تعديل إبلاغ البوابة","Delete this gate notification?":"حذف إبلاغ البوابة؟","Security will no longer see it.":"لن يظهر لفريق الأمن بعد ذلك.","Bank details for payment":"بيانات البنك للسداد","Bank":"البنك","Account holder":"اسم الحساب","Account number":"رقم الحساب","Copy":"نسخ","Copied":"تم النسخ",
 "Upload a payment receipt":"رفع إيصال سداد","Amount paid (EGP)":"المبلغ المدفوع (بالجنيه)","Payment receipt":"إيصال السداد","e.g. Bank transfer on 4 Nov":"مثال: تحويل بنكي بتاريخ ٤ نوفمبر","Send receipt":"إرسال الإيصال","Your receipts":"إيصالاتك","No receipts yet.":"لا توجد إيصالات بعد.",
 "Upload the payment receipt.":"ارفع إيصال السداد.","Enter the amount as a number.":"أدخل المبلغ رقمًا.","Receipt sent. The management will review it.":"تم إرسال الإيصال، وستراجعه الإدارة.","Confirmed":"تم التأكيد","Confirm payment":"تأكيد السداد",
 "Payment receipts":"إيصالات السداد","No receipts waiting.":"لا توجد إيصالات منتظرة.","Recent receipts":"آخر الإيصالات","Payment confirmed. Update the chalet balance from the Resort tab if needed.":"تم تأكيد السداد. حدّث رصيد الشاليه من تبويب «القرية» إذا لزم الأمر.","Receipt rejected":"تم رفض الإيصال","Outside workers entry":"إضافة عمالة خارجية","Worker name(s)":"اسم العامل أو العمال","Type of work":"نوع العمالة","Cleaning":"نظافة","Maintenance":"صيانة","Other":"أخرى","Period":"المدة",
@@ -641,7 +641,7 @@ const mgrCounts=()=>{const m=D.m||{units:[],requests:[],complaints:[]};const ap=
 const segs=(k,list,cn={})=>`<div class="seg">${list.map(x=>`<button class="${(tmp[k]||list[0])===x?"on":""}" data-a="seg" data-k="${k}" data-v="${x}">${t(x)}${cntB(cn[x]||0)}</button>`).join("")}</div>`;
 const unitChip=()=>`<div class="unitchip"><span class="unitline">${I("home")}${esc(unitLabel(unit()))}</span></div>`;
 const empty=(ic,txt)=>`<div class="empty">${I(ic)}${txt}</div>`;
-const needUnit=()=>`<div class="empty">${I("building")}${t("Add your unit first to use this.")}<div style="height:14px"></div><button class="btn small" data-a="addUnit">${I("plus")}${t("Add a unit")}</button></div>`;
+const needUnit=()=>isMgr()?`<div class="empty">${I("settings")}${t("This section is for residents. Use the Manager panel to manage the resort.")}<div style="height:14px"></div><button class="btn small" data-a="tab" data-v="manager">${I("settings")}${t("Manager panel")}</button></div>`:`<div class="empty">${I("building")}${t("Add your unit first to use this.")}<div style="height:14px"></div><button class="btn small" data-a="addUnit">${I("plus")}${t("Add a unit")}</button></div>`;
 const langSwitch=()=>`<div class="langsw"><button class="${LANG==="ar"?"on":""}" data-a="setLang" data-v="ar">العربية</button><button class="${LANG==="en"?"on":""}" data-a="setLang" data-v="en">English</button></div>`;
 const FB='<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><circle cx="16.5" cy="9" r="2.6"/><path d="M3 19c.7-3.3 3.2-5 6-5s5.3 1.7 6 5M14.5 14.4c2.6-.4 5 1 5.8 4.6"/></svg>';
 const fbCard=c=>c?.facebook_url?`<a class="wa fb" href="${esc(c.facebook_url)}" target="_blank" rel="noopener">${FB}<span><b>${t("Join our Facebook group")}</b><small>${t("News, photos and discussions")}</small></span>${I("right","flip")}</a>`:"";
@@ -762,7 +762,7 @@ V.gate=()=>{const c=D.communities.find(x=>D.units.some(u=>u.community_id===x.id)
   <button class="btn" data-a="checkStatus" style="margin:8px 0 16px">${t("Check status")}</button>
   ${c?.whatsapp?waCard(c):""}
   <div style="display:flex;justify-content:center;margin-top:18px">${langSwitch()}</div>
-  <div style="display:flex;gap:10px;margin-top:18px"><button class="btn ghost" data-a="addUnit">${I("plus")}${t("Register another chalet")}</button></div>
+  ${isMgr()?"":`<div style="display:flex;gap:10px;margin-top:18px"><button class="btn ghost" data-a="addUnit">${I("plus")}${t("Register another chalet")}</button></div>`}
   <button class="btn danger" data-a="logout" style="margin-top:10px">${t("Sign out")}</button>
  </div>`};
 const REASON={unknown_code:"Code not recognised",not_found:"Pass or badge not found",unit_not_approved:"Unit not approved",not_yet:"Pass is for a later date",expired:"Pass expired",already_used:"Pass already used"};
@@ -821,7 +821,7 @@ V.discover=()=>{const c=comm();return `${topbar(t("Discover"),{noBack:true})}<di
  ${c?.facebook_url?`<div style="margin:10px 0 4px">${fbCard(c)}</div>`:""}
  <a class="wa" style="margin-top:10px;background:var(--teal-soft);color:var(--ink);border-color:var(--line)" href="${VILLAGE_MAP}" target="_blank" rel="noopener">${I("compass")}<span><b>${t("Village location")}</b><small>${t("North Coast · km 72, Alexandria–Matrouh road")} · ${t("Open in Google Maps")}</small></span>${I("right","flip")}</a>
  <div class="sec" style="margin-top:12px"><h2>${t("Categories")}</h2></div>
- <div class="grid2">${[["Short numbers","phone","var(--teal)","directory"],["Community guidelines","book","var(--coral)","guidelines"],["Help Center","help","var(--amber)","help"],["My chalets","building","var(--ink)","properties"]].map(([l,ic,col,to])=>`<button class="tile" style="min-height:120px" data-a="go" data-v="${to}"><span class="art" style="background:color-mix(in srgb,${col} 16%,transparent);color:${col}">${I(ic)}</span><b>${t(l)}</b></button>`).join("")}</div>
+ <div class="grid2">${[["Short numbers","phone","var(--teal)","directory"],["Community guidelines","book","var(--coral)","guidelines"],["Help Center","help","var(--amber)","help"],...(isMgr()?[]:[["My chalets","building","var(--ink)","properties"]])].map(([l,ic,col,to])=>`<button class="tile" style="min-height:120px" data-a="go" data-v="${to}"><span class="art" style="background:color-mix(in srgb,${col} 16%,transparent);color:${col}">${I(ic)}</span><b>${t(l)}</b></button>`).join("")}</div>
  </div>${tabs("discover")}`};
 
 V.badge=()=>{const u=unit();if(!u)return `${topbar(t("Identity Badge"))}<div class="body">${needUnit()}</div>`;const ok=u.status==="approved";const ph=myPhoto(u);
@@ -877,7 +877,7 @@ V.help=()=>{const c=comm();return `${topbar(t("Help Center"))}<div class="body">
 
 V.properties=()=>`${topbar(t("Manage properties"))}<div class="body">
  ${D.units.map(u=>`${u.status!=="approved"?`<button class="link" data-a="goDocs" data-v="${u.id}" style="display:block;margin:6px 4px">${t("Upload documents")} · ${t("{n} of {m} uploaded",{n:docCount(u),m:docNeed(u)})}</button>`:""}<button class="row" data-a="setUnit" data-v="${u.id}">${I(u.id===unit()?.id?"check":"home")}<div class="t"><b>${esc(u.communities?.name)} · ${esc(u.unit_no)}</b><span>${esc(u.communities?.district)} · ${t(u.unit_type)}</span></div>${pill(u.status)}</button>`).join("")||empty("building",t("No units yet."))}
- <button class="btn" data-a="addUnit" style="margin-top:12px">${I("plus")}${t("Add a new unit")}</button></div>`;
+ ${isMgr()?"":`<button class="btn" data-a="addUnit" style="margin-top:12px">${I("plus")}${t("Add a new unit")}</button>`}</div>`;
 
 V.profileView=()=>`${topbar(t("My account"))}<div class="body">
  <div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin:10px 0 22px"><span class="avatar lg">${initials(D.profile.full_name)}</span><b style="font-size:20px">${esc(D.profile.full_name)}</b><span class="sub" dir="ltr">${esc(D.profile.email)}</span>${isMgr()?`<span class="pill p-ok">${t("App manager")}</span>`:""}</div>
@@ -1042,7 +1042,7 @@ const MGR_ACTIONS={
  delMgr:el=>busy(el,async()=>{const {error}=await sb.rpc("remove_manager",{p_email:el.dataset.v});if(error)throw error;closeSheet();await refresh();toast(t("Manager removed"))}),
 };
 /* ---------- drawer, sheet, toast ---------- */
-function drawerHTML(){const items=[["badge","ID Badge","badge"],["gatepass","Gate Pass","ticket"],...(D.units.some(isOwnerU)?[["balance","Balance due","bank"],["family","Family members","users"],["rentals","Rent out your chalet","home"]]:[]),["gatenote","Gate Notification","gate"],["requests","Requests","clip"],["complaints","Complaints","chat"],["violations","Violations","shield"],["guidelines","Community Info","book"],["directory","Phone Directory","phone"],["help","Help Center","help"],["properties","Manage properties","building"]];
+function drawerHTML(){const items=[["badge","ID Badge","badge"],["gatepass","Gate Pass","ticket"],...(!isMgr()&&D.units.some(isOwnerU)?[["balance","Balance due","bank"],["family","Family members","users"],["rentals","Rent out your chalet","home"]]:[]),["gatenote","Gate Notification","gate"],["requests","Requests","clip"],["complaints","Complaints","chat"],["violations","Violations","shield"],["guidelines","Community Info","book"],["directory","Phone Directory","phone"],["help","Help Center","help"],...(isMgr()?[]:[["properties","Manage properties","building"]])];
  const c=comm();
  return `<button class="me" data-a="go" data-v="profileView"><span class="avatar lg">${initials(D.profile?.full_name)}</span><div style="min-width:0"><b style="font-size:17px;display:block">${esc(D.profile?.full_name)}</b><span class="sub">${esc(isMgr()?t("App manager"):unitLabel(unit()))}</span></div></button>
  <nav>${isMgr()?`<button class="mi mgr" data-a="tab" data-v="manager">${I("settings")}${t("Manager panel")}</button>`:""}${items.map(([k,l,ic])=>`<button class="mi" data-a="go" data-v="${k}">${I(ic)}${t(l)}</button>`).join("")}
@@ -1125,7 +1125,7 @@ const A={
    await refresh();toast(t("Imported {n} chalets",{n:rows.length}))}),
  switchUnit(){if(D.units.length<2)return go("properties");sheet(t("Switch unit"),D.units.map(u=>`<button class="row" data-a="setUnit" data-v="${u.id}">${I(u.id===unit()?.id?"check":"home")}<div class="t"><b>${esc(u.communities?.name)} · ${esc(u.unit_no)}</b><span>${esc(u.communities?.district)}</span></div>${pill(u.status)}</button>`).join(""))},
  setUnit(el){lsSet("asu-active",el.dataset.v);closeSheet();home("home");toast(t("Switched unit"))},
- addUnit(){tmp={};go("community",{adding:true})},
+ addUnit(){if(isMgr())return;tmp={};go("community",{adding:true})},
  newItem(el){const kind=el.dataset.k,x=(kind==="request"?REQUEST_TYPES:SERVICES).find(z=>z.id===el.dataset.v);
    sheet(esc(typeName(x)),`
    ${kind==="service"?`<p class="sub" style="margin:0 0 12px">${t("Choose your preferred time. The management sets the visit date based on technician availability and notifies you.")}</p>
