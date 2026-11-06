@@ -1165,7 +1165,8 @@ const A={
  submitItem:el=>busy(el,async()=>{const kind=el.dataset.k;const when=kind==="service"?(document.querySelector("#slot .on")?.dataset.v||"Morning"):null;
    const ne=m=>{const e=document.getElementById("nerr");if(e)e.textContent=m};let details=val("n-det")||null,media_path=null;
    if(el.dataset.v==="workers"){const wn=val("w-n"),ws=val("w-s"),we=val("w-e"),wt=document.querySelector("#wtype .on")?.dataset.v||"Other",fs=[...(document.getElementById("w-id")?.files||[])];
-     if(!wn)return ne(t("Enter the worker name(s)."));if(!ws||!we||we<ws)return ne(t("Choose a valid period."));if(!fs.length)return ne(t("Upload the national ID photo of each worker."));
+     const need=(id,m)=>{ne(m);const f=document.getElementById(id),box=f?.closest(".field")||f;if(box){box.scrollIntoView({behavior:"smooth",block:"center"});box.style.outline="2px solid var(--red)";box.style.borderRadius="16px";setTimeout(()=>{box.style.outline=""},3500)}if(f&&f.type!=="file")setTimeout(()=>f.focus(),350)};
+     if(!wn)return need("w-n",t("Enter the worker name(s)."));if(!ws||!we||we<ws)return need("w-s",t("Choose a valid period."));if(!fs.length)return need("w-id",t("Upload the national ID photo of each worker."));
      media_path=(await Promise.all(fs.map(f=>upMedia(f,"workers")))).join("|");
      details=[`${t("Worker name(s)")}: ${wn}`,`${t("Type of work")}: ${t(wt)}`,`${t("Period")}: ${ws} → ${we}`,details].filter(Boolean).join("\n")}
    else{const mf=document.getElementById("n-m")?.files?.[0];if(mf)media_path=await upMedia(mf)}
